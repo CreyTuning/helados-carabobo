@@ -95,7 +95,7 @@ class CrearSolicitud extends StatelessWidget {
             ),
     
             const SizedBox(height: 7),
-    
+
             // Seleccionar descuento
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 8),
@@ -123,49 +123,94 @@ class CrearSolicitud extends StatelessWidget {
     
             const SizedBox(height: 7),
     
-            // Agregar sabor
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: Text('Sabores'),
+            // Cantidad (si el producto NO tiene sabores)
+            (crearSolicitudController.producto.value == Productos.nulo || crearSolicitudController.producto.value.sabores != null) ? const SizedBox() : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Text('Cantidad'),
+                ),
+      
+                InkWell(
+                  borderRadius: BorderRadius.circular(30),
+                  onTap: (){crearSolicitudController.onSeleccionarCantidadTap(context, crearSolicitudController.producto.value);},
+                  child: Container(
+                    height: 45,
+                
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.grey[700]!.withOpacity(0.7),
+                    ),
+                
+                    child: SizedBox(
+                      height: 45,
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('${crearSolicitudController.cantidad.value}'),
+                            (crearSolicitudController.producto.value.paqueteCantidad == null) ? Text((crearSolicitudController.cantidad.value == 1) ? ' Unidad' : ' Unidades') : Text(' ${(crearSolicitudController.cantidad.value == 1) ? ' Paquete' : ' Paquetes'} | ${crearSolicitudController.producto.value.paqueteCantidad! * crearSolicitudController.cantidad.value} unidades')
+                          ],
+                        )
+                      )
+                    ),
+                
+                  ),
+                ),
+
+                const SizedBox(height: 7),
+              ],
             ),
-    
-            InkWell(
-              borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-              onTap: (crearSolicitudController.producto.value == Productos.nulo || crearSolicitudController.producto.value.sabores == null) ? null : (){},
-              child: Container(
-                height: 45,
-            
-                decoration: BoxDecoration(
+
+            // Agregar sabor (si el producto SI tiene sabores)
+            (crearSolicitudController.producto.value == Productos.nulo || crearSolicitudController.producto.value.sabores == null) ? const SizedBox() : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Text('Sabores'),
+                ),
+        
+                InkWell(
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-                  color: Colors.grey[700]!.withOpacity(0.7),
+                  onTap: (crearSolicitudController.producto.value == Productos.nulo || crearSolicitudController.producto.value.sabores == null) ? null : (){},
+                  child: Container(
+                    height: 45,
+                
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                      color: Colors.grey[700]!.withOpacity(0.7),
+                    ),
+                
+                    child: SizedBox(
+                      height: 45,
+                      child: Center(
+                        child: Text(
+                          'Agregar sabor',
+                          style: TextStyle(
+                            color: (crearSolicitudController.producto.value == Productos.nulo || crearSolicitudController.producto.value.sabores == null) ? Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5) : Theme.of(context).textTheme.bodyText1!.color
+                          ),
+                        )
+                      )
+                    ),
+                
+                  ),
                 ),
-            
-                child: SizedBox(
-                  height: 45,
-                  child: Center(
-                    child: Text(
-                      'Agregar sabor',
-                      style: TextStyle(
-                        color: (crearSolicitudController.producto.value == Productos.nulo || crearSolicitudController.producto.value.sabores == null) ? Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5) : Theme.of(context).textTheme.bodyText1!.color
-                      ),
-                    )
-                  )
+        
+                Container(
+                  // height: 250,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+                    color: Colors.grey[900],
+                  ),
+        
+                  child: Column(
+                    children: (crearSolicitudController.producto.value == Productos.nulo) ? const [ProductoNuloTile()] : (crearSolicitudController.producto.value.sabores == null) ? const [ProductoSinSaborTile()] : (crearSolicitudController.solicitudes.isEmpty) ? const [SinSaboresTile()] : [] ,
+                  ),
                 ),
-            
-              ),
-            ),
-    
-            Container(
-              // height: 250,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-                color: Colors.grey[900],
-              ),
-    
-              child: Column(
-                children: (crearSolicitudController.producto.value == Productos.nulo) ? const [ProductoNuloTile()] : (crearSolicitudController.producto.value.sabores == null) ? const [ProductoSinSaborTile()] : (crearSolicitudController.solicitudes.isEmpty) ? const [SinSaboresTile()] : [] ,
-              ),
-            ),
+              ],
+            )
           ],
         ),
       ),
