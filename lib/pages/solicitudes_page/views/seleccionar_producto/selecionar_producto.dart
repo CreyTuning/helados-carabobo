@@ -4,7 +4,7 @@ import 'package:mispedidos/data/productos.dart';
 import 'package:mispedidos/objects/producto.dart';
 import 'package:mispedidos/pages/facturas_page/facturas_controller.dart';
 import 'package:mispedidos/pages/pedidos_page.dart/pedidos_controller.dart';
-import 'package:mispedidos/pages/solicitudes_page/solicitudes_controller.dart';
+import 'package:mispedidos/pages/solicitudes_page/entradas_controller.dart';
 import 'package:mispedidos/pages/solicitudes_page/views/seleccionar_producto/seleccionar_producto_controller.dart';
 import 'package:mispedidos/pages/solicitudes_page/widgets/category_button.dart';
 
@@ -39,7 +39,7 @@ class SeleccionarProducto extends StatelessWidget {
 
     PedidosController pedidosController = Get.find();
     FacturasController facturasController = Get.find();
-    SolicitudesController solicitudesController = Get.find();
+    EntradasController solicitudesController = Get.find();
     SeleccionarProductoController seleccionarProductoController = Get.put(SeleccionarProductoController());
 
     return Obx(

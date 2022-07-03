@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:mispedidos/objects/cliente.dart';
+import 'package:mispedidos/objects/entrada.dart';
 import 'package:mispedidos/objects/pago.dart';
 import 'package:mispedidos/objects/producto.dart';
-import 'package:mispedidos/objects/solicitud.dart';
 
 class Pedido {
   Pedido({
@@ -20,5 +20,5 @@ class Pedido {
   Rx<bool> esEntregado = false.obs;
   Rx<bool> esPagado = false.obs;
   RxList<Pago> pagos = RxList<Pago>();
-  RxMap<Producto, List<Solicitud>> solicitudes = <Producto, List<Solicitud>>{}.obs;
+  RxMap<Producto, Entrada> entradas = <Producto, Entrada>{}.obs;
 }

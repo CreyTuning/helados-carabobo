@@ -4,7 +4,7 @@ import 'package:mispedidos/objects/cliente.dart';
 import 'package:mispedidos/objects/pedido.dart';
 import 'package:mispedidos/pages/facturas_page/facturas_controller.dart';
 import 'package:mispedidos/pages/pedidos_page.dart/views/seleccionar_cliente/seleccionar_cliente_view.dart';
-import 'package:mispedidos/pages/solicitudes_page/solicitudes_page.dart';
+import 'package:mispedidos/pages/solicitudes_page/entradas_page.dart';
 
 import 'views/facturacion/facturacion_view.dart';
 
@@ -20,7 +20,7 @@ class PedidosController extends GetxController {
   }
 
   void onPedidoTileTap(Cliente cliente){
-    Get.to(()=> const SolicitudesPage(), arguments: cliente);
+    Get.to(()=> const EntradasPage(), arguments: cliente);
   }
 
   double getPagado(){

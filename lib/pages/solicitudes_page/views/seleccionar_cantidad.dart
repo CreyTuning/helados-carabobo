@@ -5,15 +5,17 @@ import 'package:mispedidos/objects/producto.dart';
 class SeleccionarCantidad extends StatelessWidget {
   const SeleccionarCantidad({
     Key? key,
-    required this.producto
+    required this.producto,
+    this.initialValue = 0
   }) : super(key: key);
 
   final Producto producto;
+  final int initialValue;
 
   @override
   Widget build(BuildContext context) {
 
-    RxString cantidad = '0'.obs;
+    RxString cantidad = '$initialValue'.obs;
 
     return Obx(
       () => Scaffold(
@@ -29,16 +31,36 @@ class SeleccionarCantidad extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
     
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  width: double.infinity,
-                  child: Text(
-                    cantidad.value,
-                    style: const TextStyle(
-                      fontSize: 45,
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Text(
+                            cantidad.value,
+                            style: TextStyle(
+                              fontSize: Get.height * 0.1,
+                            ),
+                          
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+
+                        Center(
+                          child: Text(
+                            (producto.paqueteCantidad != null) ? 'Blisters' : 'Unidades',
+                            style: TextStyle(
+                              fontSize: Get.height * 0.05,
+                            ),
+                          
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
                     ),
-    
-                    textAlign: TextAlign.center,
                   ),
                 ),
     
@@ -51,7 +73,17 @@ class SeleccionarCantidad extends StatelessWidget {
                   child: Text('${int.parse(cantidad.value) * producto.paqueteCantidad!} unidades'),
                 ),
     
-                Expanded(child: Keyboard(text: cantidad, done: (){Get.back(result: int.parse(cantidad.value));}))
+                SizedBox(
+                  height: Get.height * 0.5,
+                  child: Keyboard(
+                    text: cantidad,
+                    done: (){
+                      if(cantidad.value != '0'){
+                        Get.back(result: int.parse(cantidad.value));
+                      }
+                    }
+                  ),
+                )
     
               ],
             ),
@@ -74,12 +106,17 @@ class Keyboard extends StatelessWidget {
 
 
   void onNumberTap(int number){
-    if(number == 0 && text.value.length == 1 && text.value[0] == '0'){
+    
+    if(text.value.length >= 4){
+      // Do nothing
+    }
+    
+    else if(number == 0 && text.value.length == 1 && text.value[0] == '0'){
       // Do nothing
     }
 
     else if(number == 0 && text.value.length > 1 && text.value[0] != '0'){
-      text.value = text.value + '0';
+      text.value = '${text.value}0';
     }
 
     else if(number != 0 && text.value.length == 1 && text.value[0] == '0'){
@@ -87,7 +124,7 @@ class Keyboard extends StatelessWidget {
     }
 
     else if(text.value.length < 8){
-      text.value = text.value + '$number';
+      text.value = '${text.value}$number';
     }
   }
 
@@ -135,7 +172,10 @@ class Keyboard extends StatelessWidget {
             Expanded(
               child: Row(
                 children:  [
-                  MyBontonDeTeclado(icon: Icons.arrow_back_rounded, onTap: (){
+                  MyBontonDeTeclado(
+                    enabled: (text.value != '0' ? true : false),
+                    icon: Icons.arrow_back_rounded,
+                    onTap: (){
                     if(text.value.isNotEmpty){
                       text.value = text.value.substring(0, text.value.length - 1);
                     }
@@ -147,7 +187,11 @@ class Keyboard extends StatelessWidget {
 
                   MyBontonDeTeclado(texto: '0', onTap: (){onNumberTap(0);}),
 
-                  MyBontonDeTeclado(icon: Icons.done, onTap: (){done();}),
+                  MyBontonDeTeclado(
+                    enabled: (text.value != '0' ? true : false),
+                    icon: Icons.done,
+                    onTap: (){done();}
+                  ),
                 ],
               ),
             ),
@@ -163,19 +207,21 @@ class MyBontonDeTeclado extends StatelessWidget {
     Key? key,
     this.texto,
     required this.onTap,
-    this.icon
+    this.icon,
+    this.enabled = true
   }) : super(key: key);
 
   final String? texto;
   final IconData? icon;
   final Function onTap;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
         borderRadius: BorderRadius.circular(30),
-        onTap: (){onTap();},
+        onTap: (enabled == true) ? (){onTap();} : null,
         child: SizedBox(
           height: double.infinity,
           child: Center(
@@ -190,6 +236,7 @@ class MyBontonDeTeclado extends StatelessWidget {
 
                   (icon == null) ? const SizedBox() : Icon(icon as IconData,
                     size: 25,
+                    color: (enabled == true) ? Theme.of(context).iconTheme.color : Theme.of(context).iconTheme.color!.withOpacity(0.4),
                   ),
               ]
             ),

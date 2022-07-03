@@ -112,9 +112,9 @@ class Productos {
     precioVenta: 0.42,
     paqueteCantidad: 6,
     sabores: [
-      Sabor(nombre: 'Mantecado con Sirope de Chocolate'),
-      Sabor(nombre: 'Mantecado con Sirope de Fresa'),
-      Sabor(nombre: 'Mantecado con Sirope de Naranja')
+      Sabor(nombre: 'Sundae de Chocolate'),
+      Sabor(nombre: 'Sundae de Fresa'),
+      Sabor(nombre: 'Sundae de Naranja')
     ]
   );
 

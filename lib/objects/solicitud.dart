@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:mispedidos/objects/sabor.dart';
 
 class Solicitud {
@@ -8,9 +9,9 @@ class Solicitud {
     this.descuento
   });
 
-  Solicitud.empty();
+  // Solicitud.empty();
 
-  Sabor? sabor;
-  int? cantidad;
-  double? descuento;
+  Rx<Sabor?> sabor;
+  Rx<int?> cantidad;
+  Rx<double?>? descuento;
 }
