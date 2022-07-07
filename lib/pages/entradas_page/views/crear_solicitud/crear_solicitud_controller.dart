@@ -5,9 +5,9 @@ import 'package:mispedidos/objects/entrada.dart';
 import 'package:mispedidos/objects/producto.dart';
 import 'package:mispedidos/objects/sabor.dart';
 import 'package:mispedidos/objects/solicitud.dart';
-import 'package:mispedidos/pages/solicitudes_page/views/seleccionar_cantidad.dart';
-import 'package:mispedidos/pages/solicitudes_page/views/seleccionar_producto/selecionar_producto.dart';
-import 'package:mispedidos/pages/solicitudes_page/views/selecionar_sabor.dart';
+import 'package:mispedidos/pages/entradas_page/views/seleccionar_cantidad.dart';
+import 'package:mispedidos/pages/entradas_page/views/seleccionar_producto/selecionar_producto.dart';
+import 'package:mispedidos/pages/entradas_page/views/selecionar_sabor.dart';
 
 import '../../../facturas_page/facturas_controller.dart';
 import '../../../pedidos_page.dart/pedidos_controller.dart';
@@ -21,11 +21,24 @@ class CrearSolicitudController extends GetxController {
 
   @override
   void onReady() async {
-    if(producto.value == Productos.nulo){
-      if(await onSeleccionarProductoTap() == null){
-        Get.back();
-      }
+    Producto? argumentProducto  = Get.arguments;
+    argumentProducto ??= await Get.to(() => const SeleccionarProducto());
+
+    // Salir por que no se selecciono un producto
+    if(argumentProducto == null){
+      Get.back();
     }
+
+    // Asignar producto seleccionado
+    FacturasController facturasController = Get.find();
+    PedidosController pedidosController = Get.find();
+    EntradasController solicitudesController = Get.find();
+
+    producto.value = argumentProducto!;
+    solicitudes.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[argumentProducto]!.solicitudes;
+    descuento.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[argumentProducto]!.descuento.value;
+    cantidad.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[argumentProducto]!.cantidad.value;
+    
     super.onReady();
   }
 

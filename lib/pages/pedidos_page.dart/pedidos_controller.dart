@@ -4,7 +4,7 @@ import 'package:mispedidos/objects/cliente.dart';
 import 'package:mispedidos/objects/pedido.dart';
 import 'package:mispedidos/pages/facturas_page/facturas_controller.dart';
 import 'package:mispedidos/pages/pedidos_page.dart/views/seleccionar_cliente/seleccionar_cliente_view.dart';
-import 'package:mispedidos/pages/solicitudes_page/entradas_page.dart';
+import 'package:mispedidos/pages/entradas_page/entradas_page.dart';
 
 import 'views/facturacion/facturacion_view.dart';
 

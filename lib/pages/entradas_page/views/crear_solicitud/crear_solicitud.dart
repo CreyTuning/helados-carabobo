@@ -5,38 +5,19 @@ import 'package:get/get.dart';
 import 'package:mispedidos/data/productos.dart';
 import 'package:mispedidos/objects/producto.dart';
 import 'package:mispedidos/objects/solicitud.dart';
-import 'package:mispedidos/pages/solicitudes_page/views/crear_solicitud/crear_solicitud_controller.dart';
-import 'package:mispedidos/pages/solicitudes_page/views/crear_solicitud/widgets/sin_sabores_tile.dart';
-import 'package:mispedidos/pages/solicitudes_page/views/crear_solicitud/widgets/solicitud_tile.dart';
+import 'package:mispedidos/pages/entradas_page/views/crear_solicitud/crear_solicitud_controller.dart';
+import 'package:mispedidos/pages/entradas_page/views/crear_solicitud/widgets/sin_sabores_tile.dart';
+import 'package:mispedidos/pages/entradas_page/views/crear_solicitud/widgets/solicitud_tile.dart';
 
 class CrearSolicitud extends StatelessWidget {
   const CrearSolicitud({
     Key? key,
-    required this.esNueva,
-    this.producto,
-    this.solicitudes = const <Solicitud>[],
-    this.descuento = 0.0
   }) : super(key: key);
-
-  final bool esNueva;
-  final Producto? producto;
-  final List<Solicitud> solicitudes;
-  final double descuento;
 
   @override
   Widget build(BuildContext context) {
 
     CrearSolicitudController crearSolicitudController = Get.put(CrearSolicitudController());
-
-    if(esNueva != true){
-      if(producto != null){
-        crearSolicitudController.producto.value = producto as Producto;
-      }
-
-      crearSolicitudController.solicitudes.value = solicitudes;
-      crearSolicitudController.descuento.value = descuento;
-    }
-
 
     return Obx(
       () => Scaffold(

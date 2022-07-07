@@ -4,9 +4,9 @@ import 'package:mispedidos/data/productos.dart';
 import 'package:mispedidos/objects/producto.dart';
 import 'package:mispedidos/pages/facturas_page/facturas_controller.dart';
 import 'package:mispedidos/pages/pedidos_page.dart/pedidos_controller.dart';
-import 'package:mispedidos/pages/solicitudes_page/entradas_controller.dart';
-import 'package:mispedidos/pages/solicitudes_page/views/seleccionar_producto/seleccionar_producto_controller.dart';
-import 'package:mispedidos/pages/solicitudes_page/widgets/category_button.dart';
+import 'package:mispedidos/pages/entradas_page/entradas_controller.dart';
+import 'package:mispedidos/pages/entradas_page/views/seleccionar_producto/seleccionar_producto_controller.dart';
+import 'package:mispedidos/pages/entradas_page/widgets/category_button.dart';
 
 class SeleccionarProducto extends StatelessWidget {
   const SeleccionarProducto({Key? key}) : super(key: key);
