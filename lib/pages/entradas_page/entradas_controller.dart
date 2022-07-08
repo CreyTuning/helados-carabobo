@@ -18,7 +18,6 @@ class EntradasController extends GetxController{
   }
 
   void onAgregarTap(Producto? producto) async {
-    print(producto!.nombre);
     FacturasController facturasController = Get.find();
     PedidosController pedidosController = Get.find();
     

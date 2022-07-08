@@ -21,6 +21,10 @@ class CrearSolicitudController extends GetxController {
 
   @override
   void onReady() async {
+    FacturasController facturasController = Get.find();
+    PedidosController pedidosController = Get.find();
+    EntradasController solicitudesController = Get.find();
+    
     Producto? argumentProducto  = Get.arguments;
     argumentProducto ??= await Get.to(() => const SeleccionarProducto());
 
@@ -28,17 +32,26 @@ class CrearSolicitudController extends GetxController {
     if(argumentProducto == null){
       Get.back();
     }
-
-    // Asignar producto seleccionado
-    FacturasController facturasController = Get.find();
-    PedidosController pedidosController = Get.find();
-    EntradasController solicitudesController = Get.find();
-
-    producto.value = argumentProducto!;
-    solicitudes.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[argumentProducto]!.solicitudes;
-    descuento.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[argumentProducto]!.descuento.value;
-    cantidad.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[argumentProducto]!.cantidad.value;
     
+    // Asignar producto seleccionado
+    else { 
+      // El producto ya existe
+      if(facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas.containsKey(argumentProducto)){
+        producto.value = argumentProducto;
+        solicitudes.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[argumentProducto]!.solicitudes;
+        descuento.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[argumentProducto]!.descuento.value;
+        cantidad.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[argumentProducto]!.cantidad.value;
+      }
+
+      // El producto no existe, inicializar valores
+      else {
+        producto.value = argumentProducto;
+        solicitudes = RxList();
+        descuento = 0.0.obs;
+        cantidad.value = 1;
+      }
+    }
+
     super.onReady();
   }
 

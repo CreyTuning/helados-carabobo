@@ -7,7 +7,7 @@ void main() {
   runApp(GetMaterialApp(
       debugShowCheckedModeBanner: false,        
       darkTheme: ThemeData.dark(),
-      theme: ThemeData.light(),
+      theme: ThemeData.dark(),
       home: const MainPage(),
     ),
   );
