@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SolicitudesInformationBar extends StatelessWidget {
-  const SolicitudesInformationBar({
+class EntradasInformationBar extends StatelessWidget {
+  const EntradasInformationBar({
     Key? key,
     required this.adeudado,
     required this.pagado,
@@ -44,7 +44,7 @@ class SolicitudesInformationBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const Text('Total', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text('$adeudado\$', style: const TextStyle(fontSize: 14))
+                Text('${adeudado.toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14))
               ],
             ),
             
@@ -54,7 +54,7 @@ class SolicitudesInformationBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const Text('Pagado', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text('$pagado\$', style: const TextStyle(fontSize: 14))
+                Text('${pagado.toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14))
               ],
             ),
 
@@ -64,7 +64,7 @@ class SolicitudesInformationBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const Text('Dolar', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text('$valorDelDolar Bs', style: const TextStyle(fontSize: 14))
+                Text('${valorDelDolar.toStringAsFixed(2)} Bs', style: const TextStyle(fontSize: 14))
               ],
             ),
 
@@ -74,7 +74,7 @@ class SolicitudesInformationBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const Text('Ganancia', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text('$ganancia\$', style: const TextStyle(fontSize: 14))
+                Text('${ganancia.toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14))
               ],
             ),
           ],

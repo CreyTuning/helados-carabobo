@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:mispedidos/pages/facturas_page/facturas_controller.dart';
 import 'package:mispedidos/pages/pedidos_page.dart/pedidos_controller.dart';
@@ -48,24 +47,24 @@ class PedidosPage extends StatelessWidget {
         body: (facturasController.facturas['${pedidosController.id}']!.value.pedidos.isEmpty) ? const EmptyList(label: 'Sin pedidos') : ListView.builder(
           itemCount: facturasController.facturas['${pedidosController.id}']!.value.pedidos.length,
           itemBuilder: (context, index) => TilePedido(
-            esPagado: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.esPagado.value,
-            esEntregado: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.esEntregado.value,
-            pagado: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.pagado.value,
-            fecha: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.fecha.value,
-            adeudado: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.adeudado.value,
-            ganancia: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.ganancia.value,
-            cliente: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.cliente,
+            esPagado: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.value.esPagado.value,
+            esEntregado: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.value.esEntregado.value,
+            pagado: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.value.pagado.value,
+            fecha: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.value.fecha.value,
+            adeudado: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.value.obtenerValor(),
+            ganancia: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.value.obtenerGanancia(),
+            cliente: facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.value.cliente,
             onTap: (){
-              pedidosController.onPedidoTileTap(facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.cliente);
+              pedidosController.onPedidoTileTap(facturasController.facturas['${pedidosController.id}']!.value.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.value.pedidos.length - 1 - index).value.value.cliente);
             },
           ),
         ),
 
         bottomNavigationBar: PedidosInformationBar(
           estado: facturasController.facturas['${pedidosController.id}']!.value.estado.value,
-          ganancia: facturasController.facturas['${pedidosController.id}']!.value.ganancia.value,
+          ganancia: facturasController.facturas['${pedidosController.id}']!.value.obtenerGanancia(),
           pagado: pedidosController.getPagado(),
-          adeudado: facturasController.facturas['${pedidosController.id}']!.value.adeudado.value,
+          adeudado: facturasController.facturas['${pedidosController.id}']!.value.obtenerValor(),
           valorDelDolar: facturasController.facturas['${pedidosController.id}']!.value.valorDelDolar.value,
         ),
       ),

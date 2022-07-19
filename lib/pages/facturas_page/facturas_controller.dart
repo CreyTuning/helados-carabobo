@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mispedidos/database/database.dart';
 import 'package:mispedidos/objects/factura.dart';
 import 'package:mispedidos/pages/pedidos_page.dart/pedidos_page.dart';
 
@@ -7,6 +7,12 @@ class FacturasController extends GetxController{
 
   Rx<int> idCount = 0.obs;
   RxMap<String, Rx<Factura>> facturas = <String, Rx<Factura>>{}.obs;
+
+  @override
+  void onInit() {
+    Database.init();
+    super.onInit();
+  }
 
   void onFacturaTileTap(int id) {
     Get.to(() => const PedidosPage(), arguments: id);
@@ -19,5 +25,9 @@ class FacturasController extends GetxController{
 
   void onDismissedFactura(int index){
     facturas.remove('$index');
+  }
+
+  void forceUpdate(){
+    Get.forceAppUpdate();
   }
 }

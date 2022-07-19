@@ -13,11 +13,12 @@ import '../../../facturas_page/facturas_controller.dart';
 import '../../../pedidos_page.dart/pedidos_controller.dart';
 import '../../entradas_controller.dart';
 
-class CrearSolicitudController extends GetxController {
+class CrearEntradaController extends GetxController {
   Rx<Producto> producto = Productos.nulo.obs;
   RxList<Solicitud> solicitudes = RxList();
   RxDouble descuento = 0.0.obs;
   RxInt cantidad = 0.obs;
+  bool esNuevoElProducto = false;
 
   @override
   void onReady() async {
@@ -36,11 +37,12 @@ class CrearSolicitudController extends GetxController {
     // Asignar producto seleccionado
     else { 
       // El producto ya existe
-      if(facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas.containsKey(argumentProducto)){
+      if(facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas.containsKey(argumentProducto)){
         producto.value = argumentProducto;
-        solicitudes.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[argumentProducto]!.solicitudes;
-        descuento.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[argumentProducto]!.descuento.value;
-        cantidad.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[argumentProducto]!.cantidad.value;
+        solicitudes.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[argumentProducto]!.solicitudes;
+        descuento.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[argumentProducto]!.descuento.value;
+        cantidad.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[argumentProducto]!.cantidad.value;
+        esNuevoElProducto = false;
       }
 
       // El producto no existe, inicializar valores
@@ -49,10 +51,21 @@ class CrearSolicitudController extends GetxController {
         solicitudes = RxList();
         descuento = 0.0.obs;
         cantidad.value = 1;
+        esNuevoElProducto = true;
       }
     }
 
     super.onReady();
+  }
+
+  void onBackTap(){
+    if(!esNuevoElProducto){
+      onAceptarTap();
+    }
+
+    else {
+      Get.back();
+    }
   }
 
   void onEditarCantidadTap(int index) async {
@@ -135,11 +148,11 @@ class CrearSolicitudController extends GetxController {
     
     Producto? tempProducto = await Get.to(() => const SeleccionarProducto());
     
-    if(facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas.containsKey(tempProducto)){
-      producto.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[tempProducto]!.producto.value;
-      solicitudes.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[tempProducto]!.solicitudes;
-      descuento.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[tempProducto]!.descuento.value;
-      cantidad.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente]!.entradas[tempProducto]!.cantidad.value;
+    if(facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas.containsKey(tempProducto)){
+      producto.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[tempProducto]!.producto.value;
+      solicitudes.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[tempProducto]!.solicitudes;
+      descuento.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[tempProducto]!.descuento.value;
+      cantidad.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[tempProducto]!.cantidad.value;
     }
 
     else if(tempProducto != null){

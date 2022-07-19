@@ -23,13 +23,20 @@ class PedidosController extends GetxController {
     Get.to(()=> const EntradasPage(), arguments: cliente);
   }
 
+  @override
+  void onClose() {
+    facturasController.forceUpdate();
+    Get.back();
+    super.onClose();
+  }
+
   double getPagado(){
     
     double total = 0;
 
     if(facturasController.facturas['$id']!.value.pedidos.isNotEmpty){
-      facturasController.facturas['$id']!.value.pedidos.forEach((key, value) {
-        total += value.pagado.value;
+      facturasController.facturas['$id']!.value.pedidos.forEach((cliente, pedido) {
+        total += pedido.value.pagado.value;
       });
     }
 
@@ -38,29 +45,31 @@ class PedidosController extends GetxController {
 
   void agregarPedido() async {
 
-    var cliente = await Get.dialog(const SeleccionarClienteView());
+    Rx<Cliente>? cliente = await Get.dialog(const SeleccionarClienteView());
 
     if(cliente != null){
-      Pedido pedido = Pedido(cliente: cliente);
-      pedido.fecha = DateTime.now().obs;
-      facturasController.facturas['$id']!.value.pedidos[cliente] = pedido;
+      Rx<Pedido> pedido = Pedido(cliente: cliente.value).obs;
+      pedido.value.fecha = DateTime.now().obs;
+      facturasController.facturas['$id']!.value.pedidos.addAll({cliente : pedido});
+      // facturasController.facturas['$id']!.value.pedidos[cliente]!.value = pedido;
     }
   }
 
-  void facturar(){
-    facturasController.facturas['$id']!.value.estado.value += 1;
-    Get.forceAppUpdate();
-  }
+  void onFacturarTap() async {
 
-  void onFacturarTap(){
-    Get.generalDialog(
-      pageBuilder: (context, animation, secondaryAnimation){
-        return const Padding(
-          padding: EdgeInsets.fromLTRB(10, 25, 10, 500),
-          child: SeleccionarDatosFacturacionView(),
-        );
-      },
-    );
+    Map? valores = await Get.to(() => const SeleccionarDatosFacturacionView());
+
+    if(valores != null){
+      facturasController.facturas['$id']!.value.numero.value = valores['numeroFactura'];
+      facturasController.facturas['$id']!.value.valorDelDolar.value = valores['valorDolar'];
+      facturasController.facturas['$id']!.value.estado.value += 1;
+
+      facturasController.facturas['$id']!.value.pedidos.forEach((cliente, pedido) {
+        pedido.value.valorDelDolar.value = valores['valorDolar'];
+      });
+
+      Get.forceAppUpdate();
+    }
   }
 
   void onRemoveTap() {

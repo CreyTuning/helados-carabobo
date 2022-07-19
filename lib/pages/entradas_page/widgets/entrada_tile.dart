@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mispedidos/objects/entrada.dart';
 import 'package:mispedidos/objects/producto.dart';
 import 'package:mispedidos/pages/entradas_page/entradas_controller.dart';
@@ -14,7 +15,7 @@ class EntradaTile extends StatelessWidget {
 
   final Producto producto;
   final Entrada entrada;
-  final Function onTap;
+  final Callback? onTap;
 
   Column saboresDeLaEntradaAColumn(BuildContext context){
     List<Widget> items = [];
@@ -192,7 +193,7 @@ class EntradaTile extends StatelessWidget {
 
         Positioned.fill(
           child: InkWell(
-            onTap: (){onTap();},
+            onTap: onTap
           )
         )
       ]

@@ -22,4 +22,9 @@ class SeleccionarClienteController extends GetxController {
 
     super.onInit();
   }
+
+  void onClienteTap(int index){
+    print(clientesDisponibles[index].obs.value.nombre);
+    Get.back(result: clientesDisponibles[index].obs);
+  }
 }

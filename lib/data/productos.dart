@@ -32,14 +32,14 @@ class Productos {
   // NULO -------------------------------------------------
 
   static final Producto nulo = Producto(
-    id: -1,
+    id: '',
     nombre: '',
     descripcion: '',
   );
 
   // IMPULSOS -------------------------------------------------
   static final Producto tiniton = Producto(
-    id: 1,
+    id: 'IMP001',
     nombre: 'Tinitón',
     descripcion: 'Cremoso helado de tinita.',
     precioCompra: 0.29,
@@ -53,7 +53,7 @@ class Productos {
   );
 
   static final Producto sorbete = Producto(
-    id: 2,
+    id: 'IMP002',
     nombre: 'Sorbete',
     descripcion: 'Refrescante helado de sorbete.',
     precioCompra: 0.29,
@@ -68,7 +68,7 @@ class Productos {
   );
 
   static final Producto batiboom = Producto(
-    id: 3,
+    id: 'IMP003',
     nombre: 'Batiboom',
     descripcion: 'Divertido helado de cono.',
     precioCompra: 0.29,
@@ -82,7 +82,7 @@ class Productos {
   );
 
   static final Producto barquilla = Producto(
-    id: 4,
+    id: 'IMP004',
     nombre: 'Barquilla Clásica',
     descripcion: 'Cremosa barquilla de helado en cono de galleta dulce con cobertura interna de chocolate.',
     precioCompra: 0.35,
@@ -96,7 +96,7 @@ class Productos {
   );
 
   static final Producto swing = Producto(
-    id: 5,
+    id: 'IMP005',
     nombre: 'Swing',
     descripcion: 'Cremoso helado de mantecado con sirope de chocolate, sirope de fresa y crujiente topping de maní.',
     precioCompra: 0.35,
@@ -105,7 +105,7 @@ class Productos {
   );
   
   static final Producto sundae = Producto(
-    id: 6,
+    id: 'IMP006',
     nombre: 'Sundae',
     descripcion: 'Cremoso helado de tinita.',
     precioCompra: 0.32,
@@ -118,10 +118,19 @@ class Productos {
     ]
   );
 
+  static final Producto chocolate = Producto(
+    id: 'IMP007',
+    nombre: 'Chocolate',
+    descripcion: 'Chocolate con sirope de chocolate.',
+    precioCompra: 0.32,
+    precioVenta: 0.42,
+    paqueteCantidad: 6,
+  );
+
 
   // POTES ----------------------------------------------------
   static final Producto medioLitro = Producto(
-    id: 7,
+    id: 'REC001',
     nombre: 'Medio Litro',
     descripcion: 'Cremoso helado de Medio Litro.',
     sabores: [
@@ -228,7 +237,7 @@ class Productos {
   );
 
   static final Producto litro = Producto(
-    id: 8,
+    id: 'REC002',
     nombre: 'Helado de 1 Litro',
     descripcion: 'Cremoso helado de Medio Litro.',
     sabores: [
@@ -342,7 +351,7 @@ class Productos {
   );
 
   static final Producto napolitano = Producto(
-    id: 9,
+    id: 'REC003',
     nombre: 'Napolitano',
     descripcion: 'Cremoso helado Napolitano en sabor de mantecado con cholate y fresa.',
     precioCompra: 4.4,
@@ -350,7 +359,7 @@ class Productos {
   );
 
   static final Producto cuatroLitros = Producto(
-    id: 10,
+    id: 'REC004',
     nombre: 'Helado de 4.4 Litros',
     descripcion: 'Cremoso helado.',
     sabores: [
@@ -536,17 +545,18 @@ class Productos {
   );
 
 
-  // OTROS ----------------------------------------------------
+  // UTENSILIOS ----------------------------------------------------
   static final Producto cucharilla = Producto(
-    id: 11,
+    id: 'UT001',
     nombre: 'Cucharilla',
     descripcion: 'Paletas o cucharillas plásticas para helados, postres, degustaciones u otros.',
     precioCompra: 0.01,
     precioVenta: 0.02
   );
 
+  // GALLETAS ----------------------------------------------------
   static final Producto galletaConoBarquillaTradicional = Producto(
-    id: 12,
+    id: 'GA001',
     nombre: 'Galleta de Barquilla Tradicional',
     descripcion: 'Crujientes galletas de barquillas tradicionales en tamaño estandar para rellenar.',
     paqueteCantidad: 50,
@@ -555,7 +565,7 @@ class Productos {
   );
 
   static final Producto galletaConoMiniBarquillon = Producto(
-    id: 13,
+    id: 'GA002',
     nombre: 'Galleta de Mini Barquillón',
     descripcion: 'Crujientes galletas de mini barquillón para rellenar.',
     paqueteCantidad: 45,
@@ -564,7 +574,7 @@ class Productos {
   );
 
   static final Producto galletaCestaFlor = Producto(
-    id: 14,
+    id: 'GA003',
     nombre: 'Cesta de Galleta',
     descripcion: 'Crujientes Cesta de Galleta en forma de Flor para rellenar.',
     paqueteCantidad: 32,
@@ -572,8 +582,9 @@ class Productos {
     precioVenta: 0.25
   );
 
+  // BOLSOS ----------------------------------------------------
   static final Producto bolsoTermico = Producto(
-    id: 15,
+    id: 'BOL001',
     nombre: 'Bolso Térmico',
     descripcion: 'Bolso térmico con capacidad para 20 litros de helado.',
     precioCompra: 12,

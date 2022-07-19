@@ -3,10 +3,11 @@ import 'package:mispedidos/objects/cliente.dart';
 import 'package:mispedidos/objects/entrada.dart';
 import 'package:mispedidos/objects/producto.dart';
 import 'package:mispedidos/objects/solicitud.dart';
+import 'package:mispedidos/pages/entradas_page/views/crear_entrada/crear_entrada_controller.dart';
 import 'package:mispedidos/pages/facturas_page/facturas_controller.dart';
-import 'package:mispedidos/pages/entradas_page/views/crear_solicitud/crear_solicitud.dart';
 
 import '../pedidos_page.dart/pedidos_controller.dart';
+import 'views/crear_entrada/crear_entrada.dart';
 
 class EntradasController extends GetxController{
   Cliente cliente = Cliente(nombre: '');
@@ -21,10 +22,10 @@ class EntradasController extends GetxController{
     FacturasController facturasController = Get.find();
     PedidosController pedidosController = Get.find();
     
-    Map<Producto, Entrada>? mapEntrada = await Get.to(()=> const CrearSolicitud(), arguments: producto);
+    Map<Producto, Entrada>? mapEntrada = await Get.to(()=> const CrearEntrada(), arguments: producto);
 
     if(mapEntrada != null){
-      facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[cliente]!.entradas.addAll(mapEntrada);
+      facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[cliente.obs]!.value.entradas.addAll(mapEntrada);
     }
   }
 
@@ -58,7 +59,13 @@ class EntradasController extends GetxController{
     
     // Si el producto NO tiene sabores
     else {
-      valor = producto.precioVenta! * entrada.cantidad.value;
+      if(producto.paqueteCantidad == null){
+        valor = producto.precioVenta! * entrada.cantidad.value;
+      }
+
+      else {
+        valor = producto.precioVenta! * entrada.cantidad.value * producto.paqueteCantidad!;
+      }
     }
 
     return valor;

@@ -19,7 +19,7 @@ class SeleccionarClienteView extends StatelessWidget {
       body: ListView.builder(
         itemCount: seleccionarClienteController.clientesDisponibles.length,
         itemBuilder: (context, index) => ListTile(
-          onTap: (){Get.back(result:seleccionarClienteController.clientesDisponibles[index]);},
+          onTap: (){seleccionarClienteController.onClienteTap(index);},
           title: Text(seleccionarClienteController.clientesDisponibles[index].nombre),
           leading: CircleAvatar(
             child: Text('${index + 1}'),

@@ -12,7 +12,7 @@ class Producto{
   });
 
   Producto.empty({
-    this.id = 0,
+    this.id = '',
     this.paqueteCantidad = 0,
     this.nombre = '',
     this.descripcion = '',
@@ -21,7 +21,7 @@ class Producto{
     this.sabores = const <Sabor>[]
   });
 
-  final int id;
+  final String id;
   final int? paqueteCantidad;
   final String nombre;
   final String descripcion;

@@ -14,11 +14,39 @@ class Pedido {
   Rx<double> valorDelDolar = 0.0.obs;
   Rx<double> constoEnvio = 0.0.obs;
   Rx<double> descuento = 0.0.obs;
-  Rx<double> ganancia = 0.0.obs;
-  Rx<double> adeudado = 0.0.obs;
   Rx<double> pagado = 0.0.obs;
   Rx<bool> esEntregado = false.obs;
   Rx<bool> esPagado = false.obs;
   RxList<Pago> pagos = RxList<Pago>();
   RxMap<Producto, Entrada> entradas = <Producto, Entrada>{}.obs;
+
+  double obtenerValor(){
+    double valor = 0.0;
+
+    entradas.forEach((producto, entrada) {
+      valor += entrada.obtenerValor();
+    });
+
+    return valor;
+  }
+
+  double obtenerValorDeFabrica(){
+    double valor = 0.0;
+
+    entradas.forEach((producto, entrada) {
+      valor += entrada.obtenerValorDeFabrica();
+    });
+
+    return valor;
+  }
+
+  double obtenerGanancia(){
+    double valor = 0.0;
+
+    entradas.forEach((producto, entrada) {
+      valor += entrada.obtenerGanancia();
+    });
+
+    return valor;
+  }
 }

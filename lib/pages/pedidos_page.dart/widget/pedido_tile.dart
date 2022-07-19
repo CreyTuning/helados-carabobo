@@ -127,8 +127,8 @@ class TilePedido extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('$adeudado\$', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-            Text('$ganancia\$', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green))
+            Text('${adeudado.toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+            Text('${ganancia.toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green))
           ],
         )
       ),

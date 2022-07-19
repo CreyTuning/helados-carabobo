@@ -9,8 +9,6 @@ class Solicitud {
     this.descuento
   });
 
-  // Solicitud.empty();
-
   Rx<Sabor?> sabor;
   Rx<int?> cantidad;
   Rx<double?>? descuento;

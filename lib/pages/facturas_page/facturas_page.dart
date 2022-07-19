@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mispedidos/pages/clientes_page/clientes_controller.dart';
 import 'package:mispedidos/pages/facturas_page/facturas_controller.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mispedidos/pages/widgets/empty_list.dart';
 
 import 'widgets/tile_factura.dart';
@@ -34,10 +33,11 @@ class FacturasPage extends StatelessWidget {
           itemBuilder: (context, index) => TileFactura(
             id: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.id,
             numero: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.numero.value,
-            adeudado: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.adeudado.value,
-            ganancia: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.ganancia.value,
+            adeudado: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.obtenerValor(),
+            ganancia: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.obtenerGanancia(),
             estado: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.estado.value,
-            onTap: () => facturasController.onFacturaTileTap(facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.id)
+            onTap: () => facturasController.onFacturaTileTap(facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.id),
+            onLongPress: (){facturasController.onDismissedFactura(facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.id);}
           ),
         )
       ),

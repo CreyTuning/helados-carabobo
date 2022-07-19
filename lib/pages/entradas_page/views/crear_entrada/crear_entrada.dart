@@ -3,21 +3,19 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mispedidos/data/productos.dart';
-import 'package:mispedidos/objects/producto.dart';
-import 'package:mispedidos/objects/solicitud.dart';
-import 'package:mispedidos/pages/entradas_page/views/crear_solicitud/crear_solicitud_controller.dart';
-import 'package:mispedidos/pages/entradas_page/views/crear_solicitud/widgets/sin_sabores_tile.dart';
-import 'package:mispedidos/pages/entradas_page/views/crear_solicitud/widgets/solicitud_tile.dart';
+import 'crear_entrada_controller.dart';
+import 'widgets/sin_sabores_tile.dart';
+import 'widgets/solicitud_tile.dart';
 
-class CrearSolicitud extends StatelessWidget {
-  const CrearSolicitud({
+class CrearEntrada extends StatelessWidget {
+  const CrearEntrada({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    CrearSolicitudController crearSolicitudController = Get.put(CrearSolicitudController());
+    CrearEntradaController crearEntradaController = Get.put(CrearEntradaController());
 
     return Obx(
       () => Scaffold(
@@ -25,32 +23,32 @@ class CrearSolicitud extends StatelessWidget {
         appBar: AppBar(
           title: InkWell(
             borderRadius: BorderRadius.circular(12),
-            onTap: (){crearSolicitudController.onSeleccionarProductoTap();},
+            onTap: (){crearEntradaController.onSeleccionarProductoTap();},
             child: Container(
               height: 50,
               alignment: Alignment.centerLeft,
-              child: Text((crearSolicitudController.producto.value != Productos.nulo) ? crearSolicitudController.producto.value.nombre : 'Seleccionar producto'),
+              child: Text((crearEntradaController.producto.value != Productos.nulo) ? crearEntradaController.producto.value.nombre : 'Seleccionar producto'),
             ),
           ),
 
           actions: [
-            (crearSolicitudController.producto.value.sabores == null) ? const SizedBox() : IconButton(
-              onPressed: (crearSolicitudController.obtenerSaboresUsados().length == crearSolicitudController.producto.value.sabores!.length) ? null : (){crearSolicitudController.onAgregarSaborTap(context, crearSolicitudController.producto.value);},
+            (crearEntradaController.producto.value.sabores == null) ? const SizedBox() : IconButton(
+              onPressed: (crearEntradaController.obtenerSaboresUsados().length == crearEntradaController.producto.value.sabores!.length) ? null : (){crearEntradaController.onAgregarSaborTap(context, crearEntradaController.producto.value);},
               icon: const Icon(Icons.add)
             )
           ],
 
-          leadingWidth: (crearSolicitudController.producto.value == Productos.nulo) ? 60 : 70,
-          titleSpacing: (crearSolicitudController.producto.value == Productos.nulo) ? 12 : 5,
+          leadingWidth: (crearEntradaController.producto.value == Productos.nulo) ? 60 : 70,
+          titleSpacing: (crearEntradaController.producto.value == Productos.nulo) ? 12 : 5,
           leading: IconButton(
-            onPressed: Get.back,
+            onPressed: (){crearEntradaController.onBackTap();},
             icon: InkWell(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Icon(Icons.arrow_back_rounded),
-                  (crearSolicitudController.producto.value == Productos.nulo) ? const SizedBox() : Container(
+                  (crearEntradaController.producto.value == Productos.nulo) ? const SizedBox() : Container(
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
@@ -59,7 +57,7 @@ class CrearSolicitud extends StatelessWidget {
                     height: 30,
                     width: 30,
                     child: Image.asset(
-                      'lib/resources/productos/${crearSolicitudController.producto.value.nombre}.png',
+                      'lib/resources/productos/${crearEntradaController.producto.value.nombre}.png',
                     ),
                   ),
                   
@@ -69,16 +67,16 @@ class CrearSolicitud extends StatelessWidget {
           ),
         ),
 
-        bottomNavigationBar: SizedBox(
+        bottomNavigationBar: crearEntradaController.esNuevoElProducto == false ? const SizedBox() : SizedBox(
           height: 45,
           child: MaterialButton(
-            onPressed: crearSolicitudController.onAceptarTap,
+            onPressed: crearEntradaController.onAceptarTap,
             color: Colors.green[700],
             // shape: RoundedRectangleBorder(
             //   borderRadius: BorderRadius.circular(30)
             // ),
             child: const Center(
-              child: Text('Aceptar',)
+              child: Text('Agregar producto',)
             ),
           ),
         ),
@@ -88,7 +86,7 @@ class CrearSolicitud extends StatelessWidget {
           children: [
             // Producto
 
-            (crearSolicitudController.producto.value != Productos.nulo) ? const SizedBox() : Center(
+            (crearEntradaController.producto.value != Productos.nulo) ? const SizedBox() : Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -110,7 +108,7 @@ class CrearSolicitud extends StatelessWidget {
             ),
 
             // Seleccionar descuento General
-            (crearSolicitudController.producto.value == Productos.nulo || crearSolicitudController.producto.value.sabores != null) ? const SizedBox() : Padding(
+            (crearEntradaController.producto.value == Productos.nulo || crearEntradaController.producto.value.sabores != null) ? const SizedBox() : Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,7 +142,7 @@ class CrearSolicitud extends StatelessWidget {
             ),
     
             // Cantidad (si el producto NO tiene sabores)
-            (crearSolicitudController.producto.value == Productos.nulo || crearSolicitudController.producto.value.sabores != null) ? const SizedBox() : Expanded(
+            (crearEntradaController.producto.value == Productos.nulo || crearEntradaController.producto.value.sabores != null) ? const SizedBox() : Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -157,7 +155,7 @@ class CrearSolicitud extends StatelessWidget {
                     
                     InkWell(
                       borderRadius: BorderRadius.circular(30),
-                      onTap: (){crearSolicitudController.onSeleccionarCantidadTap(context, crearSolicitudController.producto.value);},
+                      onTap: (){crearEntradaController.onSeleccionarCantidadTap(context, crearEntradaController.producto.value);},
                       child: Container(
                         height: 45,
                     
@@ -172,8 +170,8 @@ class CrearSolicitud extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('${crearSolicitudController.cantidad.value}'),
-                                (crearSolicitudController.producto.value.paqueteCantidad == null) ? Text((crearSolicitudController.cantidad.value == 1) ? ' Unidad' : ' Unidades') : Text(' ${(crearSolicitudController.cantidad.value == 1) ? ' Paquete' : ' Paquetes'} | ${crearSolicitudController.producto.value.paqueteCantidad! * crearSolicitudController.cantidad.value} unidades')
+                                Text('${crearEntradaController.cantidad.value}'),
+                                (crearEntradaController.producto.value.paqueteCantidad == null) ? Text((crearEntradaController.cantidad.value == 1) ? ' Unidad' : ' Unidades') : Text(' ${(crearEntradaController.cantidad.value == 1) ? ' Paquete' : ' Paquetes'} | ${crearEntradaController.producto.value.paqueteCantidad! * crearEntradaController.cantidad.value} unidades')
                               ],
                             )
                           )
@@ -189,7 +187,7 @@ class CrearSolicitud extends StatelessWidget {
             ),
 
             // Agregar sabor (si el producto SI tiene sabores)
-            (crearSolicitudController.producto.value == Productos.nulo || crearSolicitudController.producto.value.sabores == null) ? const SizedBox() : Expanded(
+            (crearEntradaController.producto.value == Productos.nulo || crearEntradaController.producto.value.sabores == null) ? const SizedBox() : Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -244,20 +242,20 @@ class CrearSolicitud extends StatelessWidget {
                         color: Colors.grey[900],
                       ),
                           
-                      child: (crearSolicitudController.solicitudes.isEmpty) ? const SinSaboresTile() : ListView.builder(
+                      child: (crearEntradaController.solicitudes.isEmpty) ? const SinSaboresTile() : ListView.builder(
                         padding: const EdgeInsets.fromLTRB(0, 5, 0, 20),
                         itemExtent: 45,
-                        itemCount: crearSolicitudController.solicitudes.length,
+                        itemCount: crearEntradaController.solicitudes.length,
                         itemBuilder: (context, index) => Material(
                           color: Colors.transparent,
                           child: SolicitudTile(
-                            producto: crearSolicitudController.producto.value,
-                            sabor: crearSolicitudController.solicitudes[index].sabor.value!,
-                            cantidad: crearSolicitudController.solicitudes[index].cantidad.value!,
-                            descuento: crearSolicitudController.solicitudes[index].descuento!.value!,
-                            onProductoTap: (){crearSolicitudController.onEditarSaborTap(index);},
-                            onCantidadTap: (){crearSolicitudController.onEditarCantidadTap(index);},
-                            onProductoDobleTap: (){crearSolicitudController.onBorrarSaborTap(index);},
+                            producto: crearEntradaController.producto.value,
+                            sabor: crearEntradaController.solicitudes[index].sabor.value!,
+                            cantidad: crearEntradaController.solicitudes[index].cantidad.value!,
+                            descuento: crearEntradaController.solicitudes[index].descuento!.value!,
+                            onProductoTap: (){crearEntradaController.onEditarSaborTap(index);},
+                            onCantidadTap: (){crearEntradaController.onEditarCantidadTap(index);},
+                            onProductoDobleTap: (){crearEntradaController.onBorrarSaborTap(index);},
                           )
                         ),
                       )
@@ -285,11 +283,11 @@ class CrearSolicitud extends StatelessWidget {
                     color: Colors.grey[900],
                     child: Row(
                       children: [
-                        Expanded(child: Center(child: Text('${crearSolicitudController.obtenerCantidadDeUnidadesSolicitudes()}', style: TextStyle(fontSize: 14),))),
+                        Expanded(child: Center(child: Text('${crearEntradaController.obtenerCantidadDeUnidadesSolicitudes()}', style: TextStyle(fontSize: 14),))),
 
-                        Expanded(child: Center(child: Text('${crearSolicitudController.descuento}\$', style: TextStyle(fontSize: 14),))),
+                        Expanded(child: Center(child: Text('${crearEntradaController.descuento}\$', style: TextStyle(fontSize: 14),))),
 
-                        Expanded(child: Center(child: Text('${crearSolicitudController.obtenerValorTotalDeSolicitudes().toStringAsFixed(2)}\$', style: TextStyle(fontSize: 14),))),
+                        Expanded(child: Center(child: Text('${crearEntradaController.obtenerValorTotalDeSolicitudes().toStringAsFixed(2)}\$', style: TextStyle(fontSize: 14),))),
                       ],
                     ),
                   ),
