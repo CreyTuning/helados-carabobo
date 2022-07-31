@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mispedidos/database/database.dart';
 import 'package:mispedidos/objects/factura.dart';
@@ -5,8 +6,8 @@ import 'package:mispedidos/pages/pedidos_page.dart/pedidos_page.dart';
 
 class FacturasController extends GetxController{
 
-  Rx<int> idCount = 0.obs;
-  RxMap<String, Rx<Factura>> facturas = <String, Rx<Factura>>{}.obs;
+  int idCount = 0;
+  Map<String, Factura> facturas = {};
 
   @override
   void onInit() {
@@ -19,15 +20,35 @@ class FacturasController extends GetxController{
   }
 
   void onNewFacturaTap(){
-    facturas['${idCount.value}'] = Factura(id: idCount.value).obs;
-    idCount.value++;
+    facturas['$idCount'] = Factura(id: idCount);
+    idCount++;
+    update();
   }
 
-  void onDismissedFactura(int index){
-    facturas.remove('$index');
-  }
+  void onRemoveFactura(int index){
+    Get.defaultDialog(
+      radius: 10,
+      title: 'Eliminar factura',
+      middleText: 'Estas eliminando una factura ¿Deseas continuar?',
+      actions: [
 
-  void forceUpdate(){
-    Get.forceAppUpdate();
+        OutlinedButton(
+          child: const Text('Cancelar', style: TextStyle(color: Colors.white,)),
+          onPressed: (){
+            Get.back();
+          }
+        ),
+
+        ElevatedButton(
+          onPressed: (){
+            facturas.remove('$index');
+            update();
+            Get.back();
+          },
+          child: const Text('Eliminar')
+        ),
+        
+      ]
+    );
   }
 }

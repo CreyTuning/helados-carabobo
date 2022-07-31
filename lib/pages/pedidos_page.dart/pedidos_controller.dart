@@ -23,36 +23,59 @@ class PedidosController extends GetxController {
     Get.to(()=> const EntradasPage(), arguments: cliente);
   }
 
-  @override
-  void onClose() {
-    facturasController.forceUpdate();
-    Get.back();
-    super.onClose();
-  }
-
   double getPagado(){
     
     double total = 0;
 
-    if(facturasController.facturas['$id']!.value.pedidos.isNotEmpty){
-      facturasController.facturas['$id']!.value.pedidos.forEach((cliente, pedido) {
-        total += pedido.value.pagado.value;
+    if(facturasController.facturas['$id']!.pedidos.isNotEmpty){
+      facturasController.facturas['$id']!.pedidos.forEach((cliente, pedido) {
+        total += pedido.pagado;
       });
     }
 
     return total;
   }
 
+  void removerPedido(Cliente cliente){
+    Get.defaultDialog(
+      radius: 10,
+      title: 'Eliminar pedido',
+      middleText: 'Estas eliminando un pedido\n¿Deseas continuar?',
+      actions: [
+
+        OutlinedButton(
+          child: const Text('Cancelar', style: TextStyle(color: Colors.white,)),
+          onPressed: (){
+            Get.back();
+          }
+        ),
+
+        ElevatedButton(
+          onPressed: (){
+            facturasController.facturas['$id']!.pedidos.remove(cliente);
+            update();
+            facturasController.update();
+            Get.back();
+          },
+          child: const Text('Eliminar')
+        ),
+        
+      ]
+    );
+  }
+
   void agregarPedido() async {
 
-    Rx<Cliente>? cliente = await Get.dialog(const SeleccionarClienteView());
+    Cliente? cliente = await Get.dialog(const SeleccionarClienteView());
 
     if(cliente != null){
-      Rx<Pedido> pedido = Pedido(cliente: cliente.value).obs;
-      pedido.value.fecha = DateTime.now().obs;
-      facturasController.facturas['$id']!.value.pedidos.addAll({cliente : pedido});
-      // facturasController.facturas['$id']!.value.pedidos[cliente]!.value = pedido;
+      Pedido pedido = Pedido(cliente: cliente);
+      pedido.fecha = DateTime.now();
+      facturasController.facturas['$id']!.pedidos.addAll({cliente : pedido});
     }
+
+    update();
+    facturasController.update();
   }
 
   void onFacturarTap() async {
@@ -60,21 +83,16 @@ class PedidosController extends GetxController {
     Map? valores = await Get.to(() => const SeleccionarDatosFacturacionView());
 
     if(valores != null){
-      facturasController.facturas['$id']!.value.numero.value = valores['numeroFactura'];
-      facturasController.facturas['$id']!.value.valorDelDolar.value = valores['valorDolar'];
-      facturasController.facturas['$id']!.value.estado.value += 1;
+      facturasController.facturas['$id']!.numero = valores['numeroFactura'];
+      facturasController.facturas['$id']!.valorDelDolar = valores['valorDolar'];
+      facturasController.facturas['$id']!.estado += 1;
 
-      facturasController.facturas['$id']!.value.pedidos.forEach((cliente, pedido) {
-        pedido.value.valorDelDolar.value = valores['valorDolar'];
+      facturasController.facturas['$id']!.pedidos.forEach((cliente, pedido) {
+        pedido.valorDelDolar = valores['valorDolar'];
       });
-
-      Get.forceAppUpdate();
     }
-  }
 
-  void onRemoveTap() {
-    // Get.back(closeOverlays: true);
-    // Get.forceAppUpdate();
-    // facturasController.facturas.remove('$id');
+    update();
+    facturasController.update();
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mispedidos/pages/clientes_page/clientes_controller.dart';
 import 'package:mispedidos/pages/pedidos_page.dart/views/seleccionar_cliente/seleccionar_cliente_controller.dart';
 
 class SeleccionarClienteView extends StatelessWidget {

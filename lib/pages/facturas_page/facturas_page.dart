@@ -12,32 +12,32 @@ class FacturasPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    // ignore: unused_local_variable
     ClientesController clientesController = Get.put(ClientesController());
-    FacturasController facturasController = Get.put(FacturasController());
 
-    return Obx(
-      ()=> Scaffold(
-
+    return GetBuilder<FacturasController>(
+        init: FacturasController(),
+        builder: (facturasController) => Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           label: const Text('Nueva factura'),
           onPressed: facturasController.onNewFacturaTap,
         ),
-    
+      
         appBar: AppBar(
           title: const Text('Facturas'),
         ),
-    
-        body: (facturasController.facturas.isEmpty) ? const EmptyList(label: 'Sin facturas') : ListView.builder(
+      
+        body: (facturasController.facturas.isEmpty)
+        ? const EmptyList(label: 'Sin facturas')
+        : ListView.builder(
           itemCount: facturasController.facturas.length,
           itemBuilder: (context, index) => TileFactura(
-            id: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.id,
-            numero: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.numero.value,
-            adeudado: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.obtenerValor(),
-            ganancia: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.obtenerGanancia(),
-            estado: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.estado.value,
-            onTap: () => facturasController.onFacturaTileTap(facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.id),
-            onLongPress: (){facturasController.onDismissedFactura(facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.value.id);}
+            id: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.id,
+            numero: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.numero,
+            adeudado: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.obtenerValor(),
+            ganancia: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.obtenerGanancia(),
+            estado: facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.estado,
+            onTap: () => facturasController.onFacturaTileTap(facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.id),
+            onLongPress: (){facturasController.onRemoveFactura(facturasController.facturas[facturasController.facturas.keys.elementAt(facturasController.facturas.length - 1 - index)]!.id);}
           ),
         )
       ),

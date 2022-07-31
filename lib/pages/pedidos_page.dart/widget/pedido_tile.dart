@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:mispedidos/objects/cliente.dart';
 
 class TilePedido extends StatelessWidget {
   const TilePedido({
     Key? key,
     required this.onTap,
+    required this.onLongPress,
     required this.esEntregado,
     required this.esPagado,
     required this.cliente, 
@@ -14,7 +16,8 @@ class TilePedido extends StatelessWidget {
     required this.pagado,
     }) : super(key: key);
 
-    final Function onTap;
+    final Callback onTap;
+    final Callback? onLongPress;
     final bool esEntregado;
     final bool esPagado;
     final Cliente cliente;
@@ -27,7 +30,8 @@ class TilePedido extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return InkWell(
-      onTap: (){onTap();},
+      onTap: onTap,
+      onLongPress: onLongPress,
       child: ListTile(
         title: Text(
           cliente.nombre,

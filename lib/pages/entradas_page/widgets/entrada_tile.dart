@@ -51,7 +51,7 @@ class EntradaTile extends StatelessWidget {
                         height: 12,
                         width: 12,
                         child: Image.asset(
-                          'lib/resources/sabores/${solicitud.sabor.value!.nombre}.png',
+                          'lib/resources/sabores/${solicitud.sabor!.nombre}.png',
                         ),
                       ),
                     ),
@@ -65,7 +65,7 @@ class EntradaTile extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(solicitud.sabor.value!.nombre, overflow: TextOverflow.ellipsis, softWrap: false, style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.65), fontSize: 12), )
+                          Text(solicitud.sabor!.nombre, overflow: TextOverflow.ellipsis, softWrap: false, style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.65), fontSize: 12), )
                         ],
                       ),
                     ),
@@ -87,8 +87,8 @@ class EntradaTile extends StatelessWidget {
               child: Container(
                 alignment: Alignment.centerRight,
                 child: (producto.paqueteCantidad == null) 
-                    ? Text('${(solicitud.sabor.value!.precioVenta == null) ? (producto.precioVenta! * solicitud.cantidad.value!).toStringAsFixed(2) : (solicitud.sabor.value!.precioVenta! * solicitud.cantidad.value!).toStringAsFixed(2)}\$', style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.65), fontSize: 12), )
-                    : Text('${(solicitud.sabor.value!.precioVenta == null) ? (producto.precioVenta! * solicitud.cantidad.value! * producto.paqueteCantidad!).toStringAsFixed(2) : (solicitud.sabor.value!.precioVenta! * solicitud.cantidad.value! * producto.paqueteCantidad!).toStringAsFixed(2)}\$', style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.65), fontSize: 12), )
+                    ? Text('${(solicitud.sabor!.precioVenta == null) ? (producto.precioVenta! * solicitud.cantidad!).toStringAsFixed(2) : (solicitud.sabor!.precioVenta! * solicitud.cantidad!).toStringAsFixed(2)}\$', style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.65), fontSize: 12), )
+                    : Text('${(solicitud.sabor!.precioVenta == null) ? (producto.precioVenta! * solicitud.cantidad! * producto.paqueteCantidad!).toStringAsFixed(2) : (solicitud.sabor!.precioVenta! * solicitud.cantidad! * producto.paqueteCantidad!).toStringAsFixed(2)}\$', style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.65), fontSize: 12), )
               )
             ),
           ],                    

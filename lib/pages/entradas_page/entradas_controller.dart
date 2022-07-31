@@ -3,7 +3,6 @@ import 'package:mispedidos/objects/cliente.dart';
 import 'package:mispedidos/objects/entrada.dart';
 import 'package:mispedidos/objects/producto.dart';
 import 'package:mispedidos/objects/solicitud.dart';
-import 'package:mispedidos/pages/entradas_page/views/crear_entrada/crear_entrada_controller.dart';
 import 'package:mispedidos/pages/facturas_page/facturas_controller.dart';
 
 import '../pedidos_page.dart/pedidos_controller.dart';
@@ -25,8 +24,12 @@ class EntradasController extends GetxController{
     Map<Producto, Entrada>? mapEntrada = await Get.to(()=> const CrearEntrada(), arguments: producto);
 
     if(mapEntrada != null){
-      facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[cliente.obs]!.value.entradas.addAll(mapEntrada);
+      facturasController.facturas[pedidosController.id.toString()]!.pedidos[cliente.obs]!.entradas.addAll(mapEntrada);
     }
+
+    update();
+    pedidosController.update();
+    facturasController.update();
   }
 
   double valorTotalDeLaEntrada(Producto producto, Entrada entrada){
@@ -36,22 +39,22 @@ class EntradasController extends GetxController{
     if(producto.sabores != null){
       entrada.solicitudes.forEach((Solicitud solicitud) {
         if(producto.paqueteCantidad == null){
-          if(solicitud.sabor.value!.precioVenta == null){
-            valor += producto.precioVenta! * solicitud.cantidad.value!;
+          if(solicitud.sabor!.precioVenta == null){
+            valor += producto.precioVenta! * solicitud.cantidad!;
           }
 
-          else if(solicitud.sabor.value!.precioVenta != null){
-            valor += solicitud.sabor.value!.precioVenta! * solicitud.cantidad.value!;
+          else if(solicitud.sabor!.precioVenta != null){
+            valor += solicitud.sabor!.precioVenta! * solicitud.cantidad!;
           }
         }
         
         else if(producto.paqueteCantidad != null) {
-        if(solicitud.sabor.value!.precioVenta == null){
-            valor += producto.precioVenta! * solicitud.cantidad.value! * producto.paqueteCantidad!;
+        if(solicitud.sabor!.precioVenta == null){
+            valor += producto.precioVenta! * solicitud.cantidad! * producto.paqueteCantidad!;
           }
 
-          else if(solicitud.sabor.value!.precioVenta != null){
-            valor += solicitud.sabor.value!.precioVenta! * solicitud.cantidad.value! * producto.paqueteCantidad!;
+          else if(solicitud.sabor!.precioVenta != null){
+            valor += solicitud.sabor!.precioVenta! * solicitud.cantidad! * producto.paqueteCantidad!;
           }
         }
       });
@@ -60,11 +63,11 @@ class EntradasController extends GetxController{
     // Si el producto NO tiene sabores
     else {
       if(producto.paqueteCantidad == null){
-        valor = producto.precioVenta! * entrada.cantidad.value;
+        valor = producto.precioVenta! * entrada.cantidad;
       }
 
       else {
-        valor = producto.precioVenta! * entrada.cantidad.value * producto.paqueteCantidad!;
+        valor = producto.precioVenta! * entrada.cantidad * producto.paqueteCantidad!;
       }
     }
 
@@ -76,12 +79,12 @@ class EntradasController extends GetxController{
     
     if(producto.sabores != null){
       entrada.solicitudes.forEach((Solicitud solicitud) {
-        cantidad += solicitud.cantidad.value!;
+        cantidad += solicitud.cantidad!;
       });
     }
 
     else {
-      cantidad = entrada.cantidad.value;
+      cantidad = entrada.cantidad;
     }
     
 

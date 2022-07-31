@@ -15,7 +15,7 @@ class SeleccionarClienteController extends GetxController {
     
     // Agregar los clientes que aun no tiene un pedido registrado
     clientesController.clientes.forEach((int key, Cliente cliente){
-      if(!facturasController.facturas['${pedidosController.id}']!.value.pedidos.keys.contains(cliente)){
+      if(!facturasController.facturas['${pedidosController.id}']!.pedidos.keys.contains(cliente)){
         clientesDisponibles.insert(0, cliente);
       }
     });
@@ -24,7 +24,6 @@ class SeleccionarClienteController extends GetxController {
   }
 
   void onClienteTap(int index){
-    print(clientesDisponibles[index].obs.value.nombre);
-    Get.back(result: clientesDisponibles[index].obs);
+    Get.back(result: clientesDisponibles[index]);
   }
 }

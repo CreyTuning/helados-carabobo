@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mispedidos/data/productos.dart';
 import 'package:mispedidos/objects/entrada.dart';
@@ -14,10 +13,10 @@ import '../../../pedidos_page.dart/pedidos_controller.dart';
 import '../../entradas_controller.dart';
 
 class CrearEntradaController extends GetxController {
-  Rx<Producto> producto = Productos.nulo.obs;
-  RxList<Solicitud> solicitudes = RxList();
-  RxDouble descuento = 0.0.obs;
-  RxInt cantidad = 0.obs;
+  Producto producto = Productos.nulo;
+  List<Solicitud> solicitudes = [];
+  double descuento = 0.0;
+  int cantidad = 0;
   bool esNuevoElProducto = false;
 
   @override
@@ -35,26 +34,35 @@ class CrearEntradaController extends GetxController {
     }
     
     // Asignar producto seleccionado
-    else { 
+    else {
       // El producto ya existe
-      if(facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas.containsKey(argumentProducto)){
-        producto.value = argumentProducto;
-        solicitudes.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[argumentProducto]!.solicitudes;
-        descuento.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[argumentProducto]!.descuento.value;
-        cantidad.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[argumentProducto]!.cantidad.value;
+      if(facturasController.facturas[pedidosController.id.toString()]!.pedidos[solicitudesController.cliente.obs]!.entradas.containsKey(argumentProducto)){
+        producto = argumentProducto;
+        solicitudes = facturasController.facturas[pedidosController.id.toString()]!.pedidos[solicitudesController.cliente.obs]!.entradas[argumentProducto]!.solicitudes;
+        descuento = facturasController.facturas[pedidosController.id.toString()]!.pedidos[solicitudesController.cliente.obs]!.entradas[argumentProducto]!.descuento;
+        cantidad = facturasController.facturas[pedidosController.id.toString()]!.pedidos[solicitudesController.cliente.obs]!.entradas[argumentProducto]!.cantidad;
         esNuevoElProducto = false;
       }
 
       // El producto no existe, inicializar valores
       else {
-        producto.value = argumentProducto;
+        producto = argumentProducto;
         solicitudes = RxList();
-        descuento = 0.0.obs;
-        cantidad.value = 1;
+        descuento = 0.0;
+        cantidad = 1;
         esNuevoElProducto = true;
+
+        if(producto.sabores == null){
+          await onSeleccionarCantidadTap(producto);
+        }
+
+        else {
+          await onAgregarSaborTap(producto);
+        }
       }
     }
 
+    update();
     super.onReady();
   }
 
@@ -69,34 +77,60 @@ class CrearEntradaController extends GetxController {
   }
 
   void onEditarCantidadTap(int index) async {
-    int? tempCantidad = await Get.to(() => SeleccionarCantidad(producto: producto.value, initialValue: solicitudes.elementAt(index).cantidad.value!,));
+    FacturasController facturasController = Get.find();
+    PedidosController pedidosController = Get.find();
+    EntradasController entradasController = Get.find();
+
+    int? tempCantidad = await Get.to(() => SeleccionarCantidad(producto: producto, initialValue: solicitudes.elementAt(index).cantidad!,));
     
     if(tempCantidad != null){
-      solicitudes.elementAt(index).cantidad.value = tempCantidad;
+      solicitudes.elementAt(index).cantidad = tempCantidad;
     }
+
+    update();
+    entradasController.update();
+    pedidosController.update();
+    facturasController.update();
   }
 
   void onEditarSaborTap(int index) async {
+    FacturasController facturasController = Get.find();
+    PedidosController pedidosController = Get.find();
+    EntradasController entradasController = Get.find();
     
-    if(obtenerSaboresUsados().length != producto.value.sabores!.length){
+    if(obtenerSaboresUsados().length != producto.sabores!.length){
 
-      Sabor? tempSabor = await Get.to(() => SeleccionarSabor(producto: producto.value, excluir: obtenerSaboresUsados()));
+      Sabor? tempSabor = await Get.to(() => SeleccionarSabor(producto: producto, excluir: obtenerSaboresUsados()));
     
       if(tempSabor != null){
-        solicitudes.elementAt(index).sabor.value = tempSabor;
+        solicitudes.elementAt(index).sabor = tempSabor;
       }
     }
+
+    update();
+    entradasController.update();
+    pedidosController.update();
+    facturasController.update();
   }
 
   void onBorrarSaborTap(int index) async {
+    FacturasController facturasController = Get.find();
+    PedidosController pedidosController = Get.find();
+    EntradasController entradasController = Get.find();
+
     solicitudes.removeAt(index);
+    
+    update();
+    entradasController.update();
+    pedidosController.update();
+    facturasController.update();
   }
 
   int obtenerCantidadDeUnidadesSolicitudes(){
     int cantidad = 0;
 
     solicitudes.forEach((Solicitud solicitud) {
-      cantidad += solicitud.cantidad.value!;
+      cantidad += solicitud.cantidad!;
     });
 
     return cantidad;
@@ -106,23 +140,23 @@ class CrearEntradaController extends GetxController {
     double valor = 0.0;
 
     solicitudes.forEach((Solicitud solicitud) {
-      if(producto.value.paqueteCantidad == null){
-        if(solicitud.sabor.value!.precioVenta == null){
-          valor += producto.value.precioVenta! * solicitud.cantidad.value!;
+      if(producto.paqueteCantidad == null){
+        if(solicitud.sabor!.precioVenta == null){
+          valor += producto.precioVenta! * solicitud.cantidad!;
         }
 
-        else if(solicitud.sabor.value!.precioVenta != null){
-          valor += solicitud.sabor.value!.precioVenta! * solicitud.cantidad.value!;
+        else if(solicitud.sabor!.precioVenta != null){
+          valor += solicitud.sabor!.precioVenta! * solicitud.cantidad!;
         }
       }
       
-      else if(producto.value.paqueteCantidad != null) {
-       if(solicitud.sabor.value!.precioVenta == null){
-          valor += producto.value.precioVenta! * solicitud.cantidad.value! * producto.value.paqueteCantidad!;
+      else if(producto.paqueteCantidad != null) {
+       if(solicitud.sabor!.precioVenta == null){
+          valor += producto.precioVenta! * solicitud.cantidad! * producto.paqueteCantidad!;
         }
 
-        else if(solicitud.sabor.value!.precioVenta != null){
-          valor += solicitud.sabor.value!.precioVenta! * solicitud.cantidad.value! * producto.value.paqueteCantidad!;
+        else if(solicitud.sabor!.precioVenta != null){
+          valor += solicitud.sabor!.precioVenta! * solicitud.cantidad! * producto.paqueteCantidad!;
         }
       }
     });
@@ -135,7 +169,7 @@ class CrearEntradaController extends GetxController {
     List<Sabor> saboresUsados = [];
 
     for (var solicitud in solicitudes) {
-      saboresUsados.add(solicitud.sabor.value!);
+      saboresUsados.add(solicitud.sabor!);
     }
 
     return saboresUsados;
@@ -144,37 +178,54 @@ class CrearEntradaController extends GetxController {
   Future<Producto?> onSeleccionarProductoTap() async {
     FacturasController facturasController = Get.find();
     PedidosController pedidosController = Get.find();
-    EntradasController solicitudesController = Get.find();
+    EntradasController entradasController = Get.find();
     
     Producto? tempProducto = await Get.to(() => const SeleccionarProducto());
     
-    if(facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas.containsKey(tempProducto)){
-      producto.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[tempProducto]!.producto.value;
-      solicitudes.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[tempProducto]!.solicitudes;
-      descuento.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[tempProducto]!.descuento.value;
-      cantidad.value = facturasController.facturas[pedidosController.id.toString()]!.value.pedidos[solicitudesController.cliente.obs]!.value.entradas[tempProducto]!.cantidad.value;
+    if(facturasController.facturas[pedidosController.id.toString()]!.pedidos[entradasController.cliente.obs]!.entradas.containsKey(tempProducto)){
+      producto = facturasController.facturas[pedidosController.id.toString()]!.pedidos[entradasController.cliente.obs]!.entradas[tempProducto]!.producto;
+      solicitudes = facturasController.facturas[pedidosController.id.toString()]!.pedidos[entradasController.cliente.obs]!.entradas[tempProducto]!.solicitudes;
+      descuento = facturasController.facturas[pedidosController.id.toString()]!.pedidos[entradasController.cliente.obs]!.entradas[tempProducto]!.descuento;
+      cantidad = facturasController.facturas[pedidosController.id.toString()]!.pedidos[entradasController.cliente.obs]!.entradas[tempProducto]!.cantidad;
     }
 
     else if(tempProducto != null){
-      producto.value = tempProducto;
+      producto = tempProducto;
       solicitudes = RxList();
-      descuento = 0.0.obs;
-      cantidad.value = 1;
+      descuento = 0.0;
+      cantidad = 1;
     }
-    
+
+    update();
+    entradasController.update();
+    pedidosController.update();
+    facturasController.update();
     return tempProducto;
   }
 
-  void onSeleccionarCantidadTap(BuildContext buildContext, Producto producto) async {
+  Future<void> onSeleccionarCantidadTap(Producto producto) async {
+    FacturasController facturasController = Get.find();
+    PedidosController pedidosController = Get.find();
+    EntradasController entradasController = Get.find();
+    
     int? cantidad = await Get.to(() => SeleccionarCantidad(producto: producto));
 
     if(cantidad != null){
       solicitudes = RxList();
-      this.cantidad.value = cantidad;
+      this.cantidad = cantidad;
     }
+
+    update();
+    entradasController.update();
+    pedidosController.update();
+    facturasController.update();
   }
 
-  void onAgregarSaborTap(BuildContext buildContext, Producto producto) async {
+  Future<void> onAgregarSaborTap(Producto producto) async {
+    FacturasController facturasController = Get.find();
+    PedidosController pedidosController = Get.find();
+    EntradasController entradasController = Get.find();
+
     Sabor? sabor;
     int? cantidad;
     
@@ -184,10 +235,14 @@ class CrearEntradaController extends GetxController {
       int? cantidad = await Get.to(() => SeleccionarCantidad(producto: producto));
 
       if(cantidad != null){
-        solicitudes.insert(0, Solicitud(sabor: sabor.obs, cantidad: cantidad.obs, descuento: 0.0.obs));
+        solicitudes.insert(0, Solicitud(sabor: sabor, cantidad: cantidad, descuento: 0.0));
       }
     }
 
+    update();
+    entradasController.update();
+    pedidosController.update();
+    facturasController.update();
   }
 
   void onAceptarTap(){
@@ -200,6 +255,6 @@ class CrearEntradaController extends GetxController {
       solicitudes: solicitudes
     );
 
-    Get.back(result: {producto.value : entrada});
+    Get.back(result: {producto : entrada});
   }
 }

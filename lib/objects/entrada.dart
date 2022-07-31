@@ -1,4 +1,5 @@
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'dart:convert';
+
 import 'package:mispedidos/objects/producto.dart';
 import 'package:mispedidos/objects/solicitud.dart';
 
@@ -11,45 +12,89 @@ class Entrada {
     required this.solicitudes
   });
 
-  Rx<Producto> producto;
-  RxList<Solicitud> solicitudes;
-  RxInt cantidad = 0.obs;
-  RxDouble descuento = 0.0.obs;
+  late Producto producto;
+  late List<Solicitud> solicitudes;
+  int cantidad = 0;
+  double descuento = 0.0;
+
+
+
+  Entrada.parse(String source){
+    Map<String, dynamic> object = jsonDecode(utf8.decode(base64.decode(source)));
+    List<Solicitud> decodedSolicitudes = [];
+
+    // decodificar solicitudes
+    for (String source in object['solicitudes']) {
+      decodedSolicitudes.add(Solicitud.parse(source));
+    }
+
+    // agregar valores
+    producto = Producto.parse(object['producto']);
+    solicitudes = decodedSolicitudes;
+    cantidad = object['cantidad'];
+    descuento = object['descuento'];
+  }
+
+  String toJsonEncode(){
+
+    List encodedSolicitudes = [];
+
+    // codificar solicitudes
+    for (Solicitud solicitud in solicitudes) {
+      encodedSolicitudes.add(solicitud.toJsonEncode());
+    }
+
+    Map<String, dynamic> data = {
+      'producto' : producto.toJsonEncode(),
+      'solicitudes' : encodedSolicitudes,
+      'cantidad' : cantidad,
+      'descuento' : descuento,
+    };
+
+    return base64.encode(utf8.encode(jsonEncode(data)));
+  }
+
+  @override
+  String toString() {
+    return 'producto: ${producto.nombre}\n'
+      'solicitudes: ${solicitudes.length}\n'
+      'cantidad: $cantidad\n'
+      'descuento: $descuento';
+  }
+
 
 
   double obtenerValor(){
     double valor = 0.0;
 
     if(solicitudes.isEmpty){
-      valor += (producto.value.paqueteCantidad == null) ? producto.value.precioVenta! * cantidad.value : producto.value.precioVenta! * cantidad.value * producto.value.paqueteCantidad!;
+      valor += (producto.paqueteCantidad == null) ? producto.precioVenta! * cantidad : producto.precioVenta! * cantidad * producto.paqueteCantidad!;
     }
 
 
     else {
       solicitudes.forEach((Solicitud solicitud) {
-        if(producto.value.paqueteCantidad == null){
-          if(solicitud.sabor.value!.precioVenta == null){
-            valor += producto.value.precioVenta! * solicitud.cantidad.value!;
+        if(producto.paqueteCantidad == null){
+          if(solicitud.sabor!.precioVenta == null){
+            valor += producto.precioVenta! * solicitud.cantidad!;
           }
 
-          else if(solicitud.sabor.value!.precioVenta != null){
-            valor += solicitud.sabor.value!.precioVenta! * solicitud.cantidad.value!;
+          else if(solicitud.sabor!.precioVenta != null){
+            valor += solicitud.sabor!.precioVenta! * solicitud.cantidad!;
           }
         }
         
-        else if(producto.value.paqueteCantidad != null) {
-        if(solicitud.sabor.value!.precioVenta == null){
-            valor += producto.value.precioVenta! * solicitud.cantidad.value! * producto.value.paqueteCantidad!;
+        else if(producto.paqueteCantidad != null) {
+        if(solicitud.sabor!.precioVenta == null){
+            valor += producto.precioVenta! * solicitud.cantidad! * producto.paqueteCantidad!;
           }
 
-          else if(solicitud.sabor.value!.precioVenta != null){
-            valor += solicitud.sabor.value!.precioVenta! * solicitud.cantidad.value! * producto.value.paqueteCantidad!;
+          else if(solicitud.sabor!.precioVenta != null){
+            valor += solicitud.sabor!.precioVenta! * solicitud.cantidad! * producto.paqueteCantidad!;
           }
         }
       });
     }
-
-    
 
     return valor;
   }
@@ -59,29 +104,29 @@ class Entrada {
     double valor = 0.0;
 
     if(solicitudes.isEmpty){
-      valor += (producto.value.paqueteCantidad == null) ? producto.value.precioCompra! * cantidad.value : producto.value.precioCompra! * cantidad.value * producto.value.paqueteCantidad!;
+      valor += (producto.paqueteCantidad == null) ? producto.precioCompra! * cantidad : producto.precioCompra! * cantidad * producto.paqueteCantidad!;
     }
 
     else {
       solicitudes.forEach((Solicitud solicitud) {
 
-        if(producto.value.paqueteCantidad == null){
-          if(solicitud.sabor.value!.precioCompra == null){
-            valor += producto.value.precioCompra! * solicitud.cantidad.value!;
+        if(producto.paqueteCantidad == null){
+          if(solicitud.sabor!.precioCompra == null){
+            valor += producto.precioCompra! * solicitud.cantidad!;
           }
 
-          else if(solicitud.sabor.value!.precioCompra != null){
-            valor += solicitud.sabor.value!.precioCompra! * solicitud.cantidad.value!;
+          else if(solicitud.sabor!.precioCompra != null){
+            valor += solicitud.sabor!.precioCompra! * solicitud.cantidad!;
           }
         }
         
-        else if(producto.value.paqueteCantidad != null) {
-        if(solicitud.sabor.value!.precioCompra == null){
-            valor += producto.value.precioCompra! * solicitud.cantidad.value! * producto.value.paqueteCantidad!;
+        else if(producto.paqueteCantidad != null) {
+        if(solicitud.sabor!.precioCompra == null){
+            valor += producto.precioCompra! * solicitud.cantidad! * producto.paqueteCantidad!;
           }
 
-          else if(solicitud.sabor.value!.precioCompra != null){
-            valor += solicitud.sabor.value!.precioCompra! * solicitud.cantidad.value! * producto.value.paqueteCantidad!;
+          else if(solicitud.sabor!.precioCompra != null){
+            valor += solicitud.sabor!.precioCompra! * solicitud.cantidad! * producto.paqueteCantidad!;
           }
         }
       });
@@ -94,29 +139,29 @@ class Entrada {
     double valor = 0.0;
 
     if(solicitudes.isEmpty){
-      valor += (producto.value.paqueteCantidad == null) ? producto.value.precioCompra! * cantidad.value : producto.value.precioCompra! * cantidad.value * producto.value.paqueteCantidad!;
+      valor += (producto.paqueteCantidad == null) ? producto.precioCompra! * cantidad : producto.precioCompra! * cantidad * producto.paqueteCantidad!;
     }
 
     else {
       solicitudes.forEach((Solicitud solicitud) {
 
-        if(producto.value.paqueteCantidad == null){
-          if(solicitud.sabor.value!.precioCompra == null){
-            valor += producto.value.precioCompra! * solicitud.cantidad.value!;
+        if(producto.paqueteCantidad == null){
+          if(solicitud.sabor!.precioCompra == null){
+            valor += producto.precioCompra! * solicitud.cantidad!;
           }
 
-          else if(solicitud.sabor.value!.precioCompra != null){
-            valor += solicitud.sabor.value!.precioCompra! * solicitud.cantidad.value!;
+          else if(solicitud.sabor!.precioCompra != null){
+            valor += solicitud.sabor!.precioCompra! * solicitud.cantidad!;
           }
         }
         
-        else if(producto.value.paqueteCantidad != null) {
-        if(solicitud.sabor.value!.precioCompra == null){
-            valor += producto.value.precioCompra! * solicitud.cantidad.value! * producto.value.paqueteCantidad!;
+        else if(producto.paqueteCantidad != null) {
+        if(solicitud.sabor!.precioCompra == null){
+            valor += producto.precioCompra! * solicitud.cantidad! * producto.paqueteCantidad!;
           }
 
-          else if(solicitud.sabor.value!.precioCompra != null){
-            valor += solicitud.sabor.value!.precioCompra! * solicitud.cantidad.value! * producto.value.paqueteCantidad!;
+          else if(solicitud.sabor!.precioCompra != null){
+            valor += solicitud.sabor!.precioCompra! * solicitud.cantidad! * producto.paqueteCantidad!;
           }
         }
       });
