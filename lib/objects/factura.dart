@@ -46,7 +46,7 @@ class Factura {
   String toJsonEncode(){
     Map<String, String> encodedPedidos = {};
 
-    // codificar entradas
+    // codificar pedidos
     pedidos.forEach((cliente, pedido) {
       encodedPedidos[cliente.toJsonEncode()] = pedido.toJsonEncode();
     });

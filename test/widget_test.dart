@@ -1,4 +1,5 @@
 import 'package:get_storage/get_storage.dart';
+import 'package:lzstring/lzstring.dart';
 import 'package:mispedidos/data/productos.dart';
 import 'package:mispedidos/objects/cliente.dart';
 import 'package:mispedidos/objects/entrada.dart';
@@ -57,8 +58,13 @@ void main() async {
     },
   );
   
-  database.write('value', factura.toJsonEncode());
-  decoded = Factura.parse(database.read('value'));
+  print('raw: ${factura.toJsonEncode().length}');
+  print('compressed: ${LZString.compressSync(factura.toJsonEncode())!.length}');
+
+  String? comp = LZString.compressSync(factura.toJsonEncode());
+
+  database.write('value', comp);
+  decoded = Factura.parse(LZString.decompressSync(database.read('value')) as String);
 
   print(decoded.toString());
 }

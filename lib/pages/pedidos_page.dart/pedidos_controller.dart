@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:mispedidos/objects/cliente.dart';
 import 'package:mispedidos/objects/pedido.dart';
 import 'package:mispedidos/pages/facturas_page/facturas_controller.dart';
+import 'package:mispedidos/pages/pedidos_page.dart/views/overview_factura/overview_factura.dart';
 import 'package:mispedidos/pages/pedidos_page.dart/views/seleccionar_cliente/seleccionar_cliente_view.dart';
 import 'package:mispedidos/pages/entradas_page/entradas_page.dart';
 
@@ -19,6 +20,10 @@ class PedidosController extends GetxController {
     super.onInit();
   }
 
+  void onOverviewTap(){
+    Get.to(()=> const OverviewFactura(), arguments: facturasController.facturas['$id']!);
+  }
+
   void onPedidoTileTap(Cliente cliente){
     Get.to(()=> const EntradasPage(), arguments: cliente);
   }
@@ -30,6 +35,19 @@ class PedidosController extends GetxController {
     if(facturasController.facturas['$id']!.pedidos.isNotEmpty){
       facturasController.facturas['$id']!.pedidos.forEach((cliente, pedido) {
         total += pedido.pagado;
+      });
+    }
+
+    return total;
+  }
+
+  double getAdeudadoEmpresa(){
+    
+    double total = 0;
+
+    if(facturasController.facturas['$id']!.pedidos.isNotEmpty){
+      facturasController.facturas['$id']!.pedidos.forEach((cliente, pedido) {
+        total += pedido.obtenerValorDeFabrica();
       });
     }
 

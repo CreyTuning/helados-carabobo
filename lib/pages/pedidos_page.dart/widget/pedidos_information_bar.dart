@@ -5,14 +5,16 @@ class PedidosInformationBar extends StatelessWidget {
     Key? key,
     required this.estado,
     required this.adeudado,
-    required this.pagado,
+    required this.adeudadoEmpresa,
+    // required this.pagado,
     required this.ganancia,
     required this.valorDelDolar
   }) : super(key: key);
 
   final int estado;
   final double adeudado;
-  final double pagado;
+  final double adeudadoEmpresa;
+  // final double pagado;
   final double ganancia;
   final double valorDelDolar;
 
@@ -58,25 +60,16 @@ class PedidosInformationBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
 
           children: [
-            // Adeudado
-            Column(
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const Text('Total', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text('${adeudado.toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14))
-              ],
-            ),
             
-            // Pagado
-            Column(
-              // crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const Text('Pagado', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text('${pagado.toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14))
-              ],
-            ),
+            // // Pagado
+            // Column(
+            //   // crossAxisAlignment: CrossAxisAlignment.stretch,
+            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //   children: [
+            //     const Text('Pagado', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+            //     Text('${pagado.toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14))
+            //   ],
+            // ),
 
             // Dolar
             Column(
@@ -95,6 +88,26 @@ class PedidosInformationBar extends StatelessWidget {
               children: [
                 const Text('Ganancia', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                 Text('${ganancia.toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14))
+              ],
+            ),
+
+            // Adeudado
+            Column(
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Text('Empresa', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                Text('${adeudadoEmpresa.toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14))
+              ],
+            ),
+
+            // Adeudado
+            Column(
+              // crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const Text('Total', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                Text('${adeudado.toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14))
               ],
             ),
           ],

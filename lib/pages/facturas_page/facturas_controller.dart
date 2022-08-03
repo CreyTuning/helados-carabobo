@@ -7,12 +7,22 @@ import 'package:mispedidos/pages/pedidos_page.dart/pedidos_page.dart';
 class FacturasController extends GetxController{
 
   int idCount = 0;
+  int month = DateTime.now().month;
+  int year = DateTime.now().year;
   Map<String, Factura> facturas = {};
 
   @override
-  void onInit() {
-    Database.init();
-    super.onInit();
+  void onReady() async {
+    await Database.init();
+    facturas = await Database.loadFacturas(month: DateTime.now().month, year: DateTime.now().year) ?? {};
+    idCount = await Database.loadIdCount();
+    update();
+    super.onReady();
+  }
+
+  void onSaveTap(){
+    Database.saveFacturas(facturas: facturas, month: month, year: year);
+    Database.saveIdCount(idCount);
   }
 
   void onFacturaTileTap(int id) {

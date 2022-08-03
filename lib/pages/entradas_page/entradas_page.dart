@@ -5,7 +5,7 @@ import 'package:mispedidos/pages/facturas_page/facturas_controller.dart';
 import 'package:mispedidos/pages/widgets/empty_list.dart';
 import 'package:mispedidos/pages/pedidos_page.dart/pedidos_controller.dart';
 import 'package:mispedidos/pages/entradas_page/entradas_controller.dart';
-import 'package:mispedidos/pages/entradas_page/widgets/solicitudes_information_bar.dart';
+import 'package:mispedidos/pages/entradas_page/widgets/entradas_information_bar.dart';
 
 class EntradasPage extends StatelessWidget {
   const EntradasPage({Key? key,}) : super(key: key);
@@ -20,7 +20,7 @@ class EntradasPage extends StatelessWidget {
       init: EntradasController(),
       builder: (entradasController) => Scaffold(
         appBar: AppBar(
-          title: Text(facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente.obs]!.cliente.nombre),
+          title: Text(facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.cliente.nombre),
           actions: [
             (facturasController.facturas['${pedidosController.id}']!.estado > 0) ? const SizedBox() : IconButton(
               onPressed: (){entradasController.onAgregarTap(null);},
@@ -30,15 +30,16 @@ class EntradasPage extends StatelessWidget {
         ),
     
         bottomNavigationBar: EntradasInformationBar(
-          adeudado: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente.obs]!.obtenerValor(),
-          pagado: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente.obs]!.pagado,
-          ganancia: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente.obs]!.obtenerGanancia(),
-          valorDelDolar: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente.obs]!.valorDelDolar,
+          adeudado: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.obtenerValor(),
+          pagado: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.pagado,
+          ganancia: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.obtenerGanancia(),
+          constoEnvio: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.constoEnvio,
+          valorDelDolar: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.valorDelDolar,
         ),
     
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     
-        body: (facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente.obs]!.entradas.isEmpty) 
+        body: (facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.entradas.isEmpty) 
         ? const EmptyList(label: 'Sin entradas') 
         : Column(
             children: [
@@ -88,11 +89,11 @@ class EntradasPage extends StatelessWidget {
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.only(top: 10),
-                  itemCount: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente.obs]!.entradas.entries.length,
+                  itemCount: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.entradas.entries.length,
                   itemBuilder: (context, index) => EntradaTile(
-                    producto: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente.obs]!.entradas.entries.elementAt(index).key,
-                    entrada: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente.obs]!.entradas.entries.elementAt(index).value,
-                    onTap: (facturasController.facturas['${pedidosController.id}']!.estado > 0) ? null : (){entradasController.onAgregarTap(facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente.obs]!.entradas.entries.elementAt(index).key);},
+                    producto: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.entradas.entries.elementAt(index).key,
+                    entrada: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.entradas.entries.elementAt(index).value,
+                    onTap: (facturasController.facturas['${pedidosController.id}']!.estado > 0) ? null : (){entradasController.onAgregarTap(facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.entradas.entries.elementAt(index).key);},
                   )
                 ),
               ),

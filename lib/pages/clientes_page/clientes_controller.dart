@@ -11,6 +11,7 @@ class ClientesController extends GetxController {
     6 : Cliente(nombre: 'Inversiones Yesi'),
     7 : Cliente(nombre: 'Ramon Suluaga'),
     8 : Cliente(nombre: 'Inversiones Los Guayos del 2021'),
+    9 : Cliente(nombre: 'Ana Fernandez'),
   }.obs;
 
   void agregarCliente(String nombre){

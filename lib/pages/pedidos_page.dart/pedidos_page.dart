@@ -27,10 +27,17 @@ class PedidosPage extends StatelessWidget {
           ),
 
           actions: [
+
+            (facturasController.facturas['${pedidosController.id}']!.pedidos.isNotEmpty) ? IconButton(
+              onPressed: pedidosController.onOverviewTap,
+              icon: const Icon(Icons.remove_red_eye_outlined),
+              tooltip: 'Vista previa'
+            ) : const SizedBox(),
             
             (facturasController.facturas['${pedidosController.id}']!.estado  == 0) ? IconButton(
               onPressed: pedidosController.agregarPedido,
-              icon: const Icon(Icons.add)
+              icon: const Icon(Icons.add),
+              tooltip: 'Agregar pedido'
             ) : const SizedBox(),
           ]
         ),
@@ -53,10 +60,10 @@ class PedidosPage extends StatelessWidget {
             ganancia: facturasController.facturas['${pedidosController.id}']!.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.pedidos.length - 1 - index).value.obtenerGanancia(),
             cliente: facturasController.facturas['${pedidosController.id}']!.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.pedidos.length - 1 - index).value.cliente,
             onTap: (){
-              pedidosController.onPedidoTileTap(facturasController.facturas['${pedidosController.id}']!.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.pedidos.length - 1 - index).value.cliente);
+              pedidosController.onPedidoTileTap(facturasController.facturas['${pedidosController.id}']!.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.pedidos.length - 1 - index).key);
             },
             onLongPress: (facturasController.facturas['${pedidosController.id}']!.estado != 0) ? null : (){
-              pedidosController.removerPedido(facturasController.facturas['${pedidosController.id}']!.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.pedidos.length - 1 - index).value.cliente);
+              pedidosController.removerPedido(facturasController.facturas['${pedidosController.id}']!.pedidos.entries.elementAt(facturasController.facturas['${pedidosController.id}']!.pedidos.length - 1 - index).key);
             },
           ),
         ),
@@ -64,8 +71,9 @@ class PedidosPage extends StatelessWidget {
         bottomNavigationBar: PedidosInformationBar(
           estado: facturasController.facturas['${pedidosController.id}']!.estado,
           ganancia: facturasController.facturas['${pedidosController.id}']!.obtenerGanancia(),
-          pagado: pedidosController.getPagado(),
+          // pagado: pedidosController.getPagado(),
           adeudado: facturasController.facturas['${pedidosController.id}']!.obtenerValor(),
+          adeudadoEmpresa: pedidosController.getAdeudadoEmpresa(),
           valorDelDolar: facturasController.facturas['${pedidosController.id}']!.valorDelDolar,
         ),
       )

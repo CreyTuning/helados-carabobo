@@ -9,7 +9,7 @@ import '../pedidos_page.dart/pedidos_controller.dart';
 import 'views/crear_entrada/crear_entrada.dart';
 
 class EntradasController extends GetxController{
-  Cliente cliente = Cliente(nombre: '');
+  late Cliente cliente;
   
   @override
   void onInit() {

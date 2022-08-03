@@ -24,6 +24,9 @@ class FacturasPage extends StatelessWidget {
       
         appBar: AppBar(
           title: const Text('Facturas'),
+          actions: [
+            IconButton(onPressed: facturasController.onSaveTap, icon: const Icon(Icons.save))
+          ],
         ),
       
         body: (facturasController.facturas.isEmpty)

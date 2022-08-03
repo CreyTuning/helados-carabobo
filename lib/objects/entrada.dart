@@ -18,7 +18,6 @@ class Entrada {
   double descuento = 0.0;
 
 
-
   Entrada.parse(String source){
     Map<String, dynamic> object = jsonDecode(utf8.decode(base64.decode(source)));
     List<Solicitud> decodedSolicitudes = [];
@@ -168,5 +167,5 @@ class Entrada {
     }    
 
     return valor;
-  }
+  }  
 }
