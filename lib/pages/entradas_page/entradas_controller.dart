@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mispedidos/objects/cliente.dart';
 import 'package:mispedidos/objects/entrada.dart';
@@ -30,6 +31,36 @@ class EntradasController extends GetxController{
     update();
     pedidosController.update();
     facturasController.update();
+  }
+
+  void onRemoveEntrada(Producto key){
+    Get.defaultDialog(
+      radius: 10,
+      title: 'Eliminar entrada',
+      middleText: 'Estas eliminando una entrada ¿Deseas continuar?',
+      actions: [
+
+        OutlinedButton(
+          child: const Text('Cancelar', style: TextStyle(color: Colors.white,)),
+          onPressed: (){
+            Get.back();
+          }
+        ),
+
+        ElevatedButton(
+          onPressed: (){
+            PedidosController pedidosController = Get.find();
+            FacturasController facturasController = Get.find();
+            
+            facturasController.facturas['${pedidosController.id}']!.pedidos[cliente]!.entradas.remove(key);
+            update();
+            Get.back();
+          },
+          child: const Text('Eliminar')
+        ),
+        
+      ]
+    );
   }
 
   double valorTotalDeLaEntrada(Producto producto, Entrada entrada){

@@ -94,6 +94,7 @@ class EntradasPage extends StatelessWidget {
                     producto: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.entradas.entries.elementAt(index).key,
                     entrada: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.entradas.entries.elementAt(index).value,
                     onTap: (facturasController.facturas['${pedidosController.id}']!.estado > 0) ? null : (){entradasController.onAgregarTap(facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.entradas.entries.elementAt(index).key);},
+                    onLongPress: (){entradasController.onRemoveEntrada(facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.entradas.entries.elementAt(index).key);},
                   )
                 ),
               ),

@@ -8,7 +8,8 @@ class Productos {
     batiboom,
     barquilla,
     swing,
-    sundae
+    sundae,
+    chocolate
   ];
 
   static final List<Producto> categoriaPotes = [
@@ -120,7 +121,7 @@ class Productos {
 
   static final Producto chocolate = Producto(
     id: 'IMP007',
-    nombre: 'Chocolate',
+    nombre: 'Doble Chocolate',
     descripcion: 'Chocolate con sirope de chocolate.',
     precioCompra: 0.32,
     precioVenta: 0.42,
@@ -238,8 +239,8 @@ class Productos {
 
   static final Producto litro = Producto(
     id: 'REC002',
-    nombre: 'Helado de 1 Litro',
-    descripcion: 'Cremoso helado de Medio Litro.',
+    nombre: 'Litro',
+    descripcion: 'Cremoso helado de Litro.',
     sabores: [
       // Clásicos
       Sabor(
@@ -360,7 +361,7 @@ class Productos {
 
   static final Producto cuatroLitros = Producto(
     id: 'REC004',
-    nombre: 'Helado de 4.4 Litros',
+    nombre: '4.4 Litros',
     descripcion: 'Cremoso helado.',
     sabores: [
       // Clásicos

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mispedidos/data/productos.dart';
@@ -253,7 +251,7 @@ class CrearEntrada extends StatelessWidget {
                             descuento: crearEntradaController.solicitudes[index].descuento!,
                             onProductoTap: (){crearEntradaController.onEditarSaborTap(index);},
                             onCantidadTap: (){crearEntradaController.onEditarCantidadTap(index);},
-                            onProductoDobleTap: (){crearEntradaController.onBorrarSaborTap(index);},
+                            onLongPress: (){crearEntradaController.onBorrarSaborTap(index);},
                           )
                         ),
                       )

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:mispedidos/objects/overviewItem.dart';
 import 'package:mispedidos/objects/producto.dart';
 import 'package:mispedidos/objects/solicitud.dart';
 
@@ -32,6 +33,33 @@ class Entrada {
     solicitudes = decodedSolicitudes;
     cantidad = object['cantidad'];
     descuento = object['descuento'];
+  }
+
+  List<OverviewItem> toOverviewItemList(){
+    List<OverviewItem> items = [];
+    
+    // Sin sabores
+    if(solicitudes.isEmpty){
+      items.add(OverviewItem(
+        producto: producto.nombre,
+        sabor: '',
+        cantidad: cantidad,
+        blister: producto.paqueteCantidad != null ? true : false
+      ));
+    }
+
+    // Con sabores
+    else if(solicitudes.isNotEmpty){
+      for (Solicitud solicitud in solicitudes) {
+        items.add(OverviewItem(
+          producto: producto.nombre,
+          sabor: solicitud.sabor!.nombre,
+          cantidad: solicitud.cantidad!,
+          blister: producto.paqueteCantidad != null ? true : false
+        ));
+      }}
+
+    return items;
   }
 
   String toJsonEncode(){

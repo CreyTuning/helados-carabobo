@@ -11,7 +11,7 @@ class SolicitudTile extends StatelessWidget {
     required this.producto,
     required this.onProductoTap,
     required this.onCantidadTap,
-    required this.onProductoDobleTap
+    required this.onLongPress
     
   }) : super(key: key);
 
@@ -20,7 +20,7 @@ class SolicitudTile extends StatelessWidget {
   final double descuento;
   final Producto producto;
   final Function onProductoTap;
-  final Function onProductoDobleTap;
+  final Function onLongPress;
   final Function onCantidadTap;
 
   @override
@@ -117,7 +117,7 @@ class SolicitudTile extends StatelessWidget {
                   child: InkWell(
                     borderRadius: const BorderRadius.only(topRight: Radius.circular(30), bottomRight: Radius.circular(30)),
                     onTap: (){onProductoTap();},
-                    onDoubleTap: (){onProductoDobleTap();},
+                    onLongPress: (){onLongPress();},
                   ),
                 ),
           

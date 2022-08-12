@@ -10,12 +10,14 @@ class EntradaTile extends StatelessWidget {
     Key? key,
     required this.producto,
     required this.entrada,
-    required this.onTap
+    required this.onTap,
+    required this.onLongPress
   }) : super(key: key);
 
   final Producto producto;
   final Entrada entrada;
   final Callback? onTap;
+  final Callback? onLongPress;
 
   Column saboresDeLaEntradaAColumn(BuildContext context){
     List<Widget> items = [];
@@ -193,7 +195,8 @@ class EntradaTile extends StatelessWidget {
 
         Positioned.fill(
           child: InkWell(
-            onTap: onTap
+            onTap: onTap,
+            onLongPress: onLongPress,
           )
         )
       ]
