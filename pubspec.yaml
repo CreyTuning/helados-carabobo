@@ -35,3 +35,4 @@ flutter:
   assets:
     - lib/resources/productos/
     - lib/resources/sabores/
+    - lib/resources/

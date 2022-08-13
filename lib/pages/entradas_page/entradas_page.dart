@@ -22,10 +22,15 @@ class EntradasPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.cliente.nombre),
           actions: [
+            IconButton(
+              onPressed: (){entradasController.onShowReceiptTap();},
+              icon: const Icon(Icons.receipt_rounded)
+            ),
+
             (facturasController.facturas['${pedidosController.id}']!.estado > 0) ? const SizedBox() : IconButton(
               onPressed: (){entradasController.onAgregarTap(null);},
               icon: const Icon(Icons.add)
-            )
+            ),
           ],
         ),
     

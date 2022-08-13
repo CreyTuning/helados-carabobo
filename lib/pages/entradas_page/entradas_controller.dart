@@ -4,6 +4,7 @@ import 'package:mispedidos/objects/cliente.dart';
 import 'package:mispedidos/objects/entrada.dart';
 import 'package:mispedidos/objects/producto.dart';
 import 'package:mispedidos/objects/solicitud.dart';
+import 'package:mispedidos/pages/entradas_page/views/receipt/receipt.dart';
 import 'package:mispedidos/pages/facturas_page/facturas_controller.dart';
 
 import '../pedidos_page.dart/pedidos_controller.dart';
@@ -18,6 +19,13 @@ class EntradasController extends GetxController{
     super.onInit();
   }
 
+  void onShowReceiptTap(){
+    FacturasController facturasController = Get.find();
+    PedidosController pedidosController = Get.find();
+
+    Get.to(() => const Receipt(), arguments: facturasController.facturas[pedidosController.id.toString()]!.pedidos[cliente.obs]!);
+  }
+
   void onAgregarTap(Producto? producto) async {
     FacturasController facturasController = Get.find();
     PedidosController pedidosController = Get.find();
@@ -25,7 +33,7 @@ class EntradasController extends GetxController{
     Map<Producto, Entrada>? mapEntrada = await Get.to(()=> const CrearEntrada(), arguments: producto);
 
     if(mapEntrada != null){
-      facturasController.facturas[pedidosController.id.toString()]!.pedidos[cliente.obs]!.entradas.addAll(mapEntrada);
+      facturasController.facturas[pedidosController.id.toString()]!.pedidos[cliente]!.entradas.addAll(mapEntrada);
     }
 
     update();
