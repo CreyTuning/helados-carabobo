@@ -8,6 +8,7 @@ class Productos {
     batiboom,
     barquilla,
     swing,
+    zoek,
     sundae,
     chocolate
   ];
@@ -130,6 +131,19 @@ class Productos {
     precioCompra: 0.32,
     precioVenta: 0.42,
     paqueteCantidad: 6,
+  );
+
+  static final Producto zoek = Producto(
+    id: 'IMP009',
+    nombre: 'Zoek',
+    descripcion: '',
+    precioCompra: 0.35,
+    precioVenta: 0.46,
+    paqueteCantidad: 5,
+    sabores: [
+      Sabor(nombre: 'Clásico'),
+      Sabor(nombre: 'Crocante'),
+    ]
   );
 
 
@@ -293,6 +307,13 @@ class Productos {
       Sabor(
         categoria: 'Premium',
         nombre: 'Chocolate',
+        precioCompra: 2.3,
+        precioVenta: 2.9
+      ),
+
+      Sabor(
+        categoria: 'Premium',
+        nombre: 'Café',
         precioCompra: 2.3,
         precioVenta: 2.9
       ),

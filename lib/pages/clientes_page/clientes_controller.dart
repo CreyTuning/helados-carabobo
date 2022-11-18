@@ -20,6 +20,7 @@ class ClientesController extends GetxController {
     15:  Cliente(nombre: 'Ana Santiago'),
     16:  Cliente(nombre: 'Yuliana Torres'),
     17:  Cliente(nombre: 'Hilary Pinto'),
+    18:  Cliente(nombre: 'Paola Castellano'),
 
   }.obs;
 
