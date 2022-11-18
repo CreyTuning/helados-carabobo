@@ -44,6 +44,7 @@ class Entrada {
         producto: producto.nombre,
         sabor: '',
         cantidad: cantidad,
+        unidadesPorBlister: producto.paqueteCantidad ?? 0,
         blister: producto.paqueteCantidad != null ? true : false
       ));
     }
@@ -55,6 +56,7 @@ class Entrada {
           producto: producto.nombre,
           sabor: solicitud.sabor!.nombre,
           cantidad: solicitud.cantidad!,
+          unidadesPorBlister: producto.paqueteCantidad ?? 0,
           blister: producto.paqueteCantidad != null ? true : false
         ));
       }}

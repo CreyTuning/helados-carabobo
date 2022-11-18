@@ -180,7 +180,7 @@ class CrearEntradaController extends GetxController {
     FacturasController facturasController = Get.find();
     PedidosController pedidosController = Get.find();
     EntradasController entradasController = Get.find();
-    
+
     Producto? tempProducto = await Get.to(() => const SeleccionarProducto());
     
     if(facturasController.facturas[pedidosController.id.toString()]!.pedidos[entradasController.cliente.obs]!.entradas.containsKey(tempProducto)){

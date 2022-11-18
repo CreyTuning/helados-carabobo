@@ -4,6 +4,7 @@ import 'package:mispedidos/objects/cliente.dart';
 import 'package:mispedidos/objects/entrada.dart';
 import 'package:mispedidos/objects/producto.dart';
 import 'package:mispedidos/objects/solicitud.dart';
+import 'package:mispedidos/pages/entradas_page/views/delivery/deliery_view.dart';
 import 'package:mispedidos/pages/entradas_page/views/receipt/receipt.dart';
 import 'package:mispedidos/pages/facturas_page/facturas_controller.dart';
 
@@ -128,5 +129,16 @@ class EntradasController extends GetxController{
     
 
     return cantidad;
+  }
+
+  void onDeliveryTap() async {
+    double? costoDeEvio = await Get.to(() => const DeliveryView());
+
+    if(costoDeEvio != null){
+      PedidosController pedidosController = Get.find();
+      FacturasController facturasController = Get.find();
+      facturasController.facturas['${pedidosController.id}']!.pedidos[cliente]!.constoEnvio = costoDeEvio;
+      update();
+    }
   }
 }

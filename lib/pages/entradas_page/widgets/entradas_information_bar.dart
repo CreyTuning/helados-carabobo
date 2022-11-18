@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 
 class EntradasInformationBar extends StatelessWidget {
   const EntradasInformationBar({
@@ -7,6 +8,7 @@ class EntradasInformationBar extends StatelessWidget {
     required this.pagado,
     required this.ganancia,
     required this.constoEnvio,
+    required this.onConstroEnvioTap,
     required this.valorDelDolar
   }) : super(key: key);
 
@@ -14,6 +16,7 @@ class EntradasInformationBar extends StatelessWidget {
   final double pagado;
   final double ganancia;
   final double constoEnvio;
+  final Callback onConstroEnvioTap;
   final double valorDelDolar;
 
   @override
@@ -66,7 +69,7 @@ class EntradasInformationBar extends StatelessWidget {
               // Ganancia
               InkWell(
                 borderRadius: BorderRadius.circular(5),
-                onTap: (){},
+                onTap: onConstroEnvioTap,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -92,7 +95,7 @@ class EntradasInformationBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   const Text('Total', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                  Text('${adeudado.toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14))
+                  Text('${(adeudado + constoEnvio).toStringAsFixed(2)}\$', style: const TextStyle(fontSize: 14))
                 ],
               ),
             ],

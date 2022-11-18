@@ -26,8 +26,12 @@ class Productos {
   ];
 
   static final List<Producto> categoriaOtros = [
+    sirope,
+    afiche,
     cucharilla,
-    bolsoTermico
+    bolsoTermico,
+    envaseCuatroLitros,
+    descuento
   ];
   
   // NULO -------------------------------------------------
@@ -356,7 +360,7 @@ class Productos {
     nombre: 'Napolitano',
     descripcion: 'Cremoso helado Napolitano en sabor de mantecado con cholate y fresa.',
     precioCompra: 4.4,
-    precioVenta: 5.5
+    precioVenta: 6
   );
 
   static final Producto cuatroLitros = Producto(
@@ -538,6 +542,13 @@ class Productos {
 
       Sabor(
         categoria: 'Super',
+        nombre: 'Choco Brownie',
+        precioCompra: 9.7,
+        precioVenta: 11.5
+      ),
+
+      Sabor(
+        categoria: 'Super',
         nombre: 'Ron con Pasas',
         precioCompra: 9.7,
         precioVenta: 11.5
@@ -560,7 +571,6 @@ class Productos {
     id: 'GA001',
     nombre: 'Galleta de Barquilla Tradicional',
     descripcion: 'Crujientes galletas de barquillas tradicionales en tamaño estandar para rellenar.',
-    paqueteCantidad: 50,
     precioCompra: 0.1,
     precioVenta: 0.12
   );
@@ -583,6 +593,54 @@ class Productos {
     precioVenta: 0.25
   );
 
+  // SIROPE ----------------------------------------------------
+  static final Producto sirope = Producto(
+    id: 'SIR001',
+    nombre: 'Sirope',
+    descripcion: 'Sirope',
+    sabores: [
+      Sabor(
+        nombre: 'Fresa',
+        precioCompra: 2.45,
+        precioVenta: 4
+      ),
+
+      Sabor(
+        nombre: 'Chocolate',
+        precioCompra: 2.45,
+        precioVenta: 4
+      ),
+
+      Sabor(
+        nombre: 'Dulce de Leche',
+        precioCompra: 6,
+        precioVenta: 8
+      ),
+
+      Sabor(
+        nombre: 'Capita Magica',
+        precioCompra: 9,
+        precioVenta: 12
+      ),
+    ]
+  );
+
+  static final Producto afiche = Producto(
+    id: 'AFI001',
+    nombre: 'Afiche Publicitario',
+    descripcion: 'Afiche Publicitario',
+    precioCompra: 0,
+    precioVenta: 0
+  );
+
+  static final Producto envaseCuatroLitros = Producto(
+    id: 'ENV001',
+    nombre: 'Envase 4.4L',
+    descripcion: 'Envase 4.4L',
+    precioCompra: 3,
+    precioVenta: 3
+  );
+
   // BOLSOS ----------------------------------------------------
   static final Producto bolsoTermico = Producto(
     id: 'BOL001',
@@ -590,5 +648,14 @@ class Productos {
     descripcion: 'Bolso térmico con capacidad para 20 litros de helado.',
     precioCompra: 12,
     precioVenta: 15
+  );
+
+  // DESCUENTO --------------------------------------------------
+  static final Producto descuento = Producto(
+    id: 'DES001',
+    nombre: 'Descuento',
+    descripcion: 'Descuento',
+    precioCompra: 0,
+    precioVenta: -0.01
   );
 }

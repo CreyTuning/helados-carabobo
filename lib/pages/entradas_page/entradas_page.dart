@@ -39,6 +39,7 @@ class EntradasPage extends StatelessWidget {
           pagado: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.pagado,
           ganancia: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.obtenerGanancia(),
           constoEnvio: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.constoEnvio,
+          onConstroEnvioTap: entradasController.onDeliveryTap,
           valorDelDolar: facturasController.facturas['${pedidosController.id}']!.pedidos[entradasController.cliente]!.valorDelDolar,
         ),
     
